@@ -34,6 +34,7 @@ namespace AbaqusConvergenceMonitor
             var dir = System.IO.Path.GetDirectoryName(path);
             this.fileSystemWatcher1.Path = dir;
             this.fileSystemWatcher1.Filter = System.IO.Path.GetFileName(path);
+            this.fileSystemWatcher1.NotifyFilter = System.IO.NotifyFilters.Size | System.IO.NotifyFilters.LastWrite; 
             info.Reset();
             fpos = 0;
 //            fs = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite  );
@@ -88,9 +89,9 @@ namespace AbaqusConvergenceMonitor
         {
             if (e.ChangeType == System.IO.WatcherChangeTypes.Changed)
             {
-                if(System.IO.File.GetLastWriteTime(e.FullPath) > last_write_time){
+                //if(System.IO.File.GetLastWriteTime(e.FullPath) > last_write_time){
                     ReadMsg();
-                }
+                //}
             }
         }
 
