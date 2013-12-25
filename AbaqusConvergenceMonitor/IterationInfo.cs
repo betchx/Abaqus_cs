@@ -60,6 +60,7 @@ namespace AbaqusConvergenceMonitor
         readonly static Regex re_residual_moment;// = new Regex(@"LARGEST RESIDUAL MOMENT +(\W+) +AT");
         readonly static Regex re_moment_ocnverged;// = new Regex(@"THE MOMENT    EQUILIBRIUM EQUATIONS HAVE CONVERGED");
         readonly static Regex re_next;
+        readonly static Regex re_instance;
 
         static IterationInfo()
         {
@@ -68,11 +69,12 @@ namespace AbaqusConvergenceMonitor
             re_iteration = new Regex(@" CONVERGENCE CHECKS FOR SEVERE DISCONTINUITY ITERATION +(\S+)");
             re_average_force = new Regex(@" AVERAGE FORCE +(\S+) +");
             re_residual_force = new Regex(@"LARGEST RESIDUAL FORCE +(\S+)  +AT");
-            re_force_converged = new Regex(@" THE FORCE     EQUILIBRIUM EQUATIONS HAVE CONVERGED");
+            re_force_converged = new Regex(@"THE FORCE + EQUILIBRIUM EQUATIONS HAVE CONVERGED");
+            re_instance = new Regex(@"INSTANCE");
             //re_force_not_converged = new Regex(@"FORCE     EQUILIBRIUM NOT ACHIEVED WITHIN TOLERANCE");
             re_average_moment = new Regex(@"AVERAGE MOMENT +(\S+) +TIME");
             re_residual_moment = new Regex(@"LARGEST RESIDUAL MOMENT +(\S+) +AT");
-            re_moment_ocnverged = new Regex(@"THE MOMENT    EQUILIBRIUM EQUATIONS HAVE CONVERGED");
+            re_moment_ocnverged = new Regex(@"THE MOMENT + EQUILIBRIUM EQUATIONS HAVE CONVERGED");
             re_next = new Regex(@"FRACTION OF STEP COMPLETED +(\S+)");
 
         }
@@ -140,6 +142,7 @@ namespace AbaqusConvergenceMonitor
 
         State ParseForceConvergence(string line)
         {
+            if (re_instance.IsMatch(line)) return State.ForceConverged;
             force_converged = re_force_converged.IsMatch(line);
             return State.AverageMoment;
         }
@@ -163,6 +166,7 @@ namespace AbaqusConvergenceMonitor
 
         State ParseMomentConvergence(string line)
         {
+            if (re_instance.IsMatch(line)) return State.MomentConverged;
             moment_converged = re_moment_ocnverged.IsMatch(line);
             return State.Finished;
         }
@@ -189,13 +193,13 @@ namespace AbaqusConvergenceMonitor
             pMap.Add(State.Iteration, ParseIteration);
             pMap.Add(State.AverageForce, ParseAverageForce);
             pMap.Add(State.ResidualForce, ParseResidualForce);
-            pMap.Add(State.DispIncrement, delegate(string s) { return State.DispCorrection; });
-            pMap.Add(State.DispCorrection, delegate(string s) { return State.ForceConverged; });
+            pMap.Add(State.DispIncrement, delegate(string s) { return re_instance.IsMatch(s)? State.DispIncrement: State.DispCorrection; });
+            pMap.Add(State.DispCorrection, delegate(string s) { return re_instance.IsMatch(s) ? State.DispCorrection : State.ForceConverged; });
             pMap.Add(State.ForceConverged, ParseForceConvergence);
             pMap.Add(State.AverageMoment, ParseAverageMoment);
             pMap.Add(State.ResidualMoment, ParseResidualMoment);
-            pMap.Add(State.RotIncrement, delegate(string s) { return State.RotCorrection; });
-            pMap.Add(State.RotCorrection, delegate(string s) { return State.MomentConverged; });
+            pMap.Add(State.RotIncrement, delegate(string s) { return re_instance.IsMatch(s) ? State.RotIncrement : State.RotCorrection; });
+            pMap.Add(State.RotCorrection, delegate(string s) { return re_instance.IsMatch(s) ? State.RotCorrection : State.MomentConverged; });
             pMap.Add(State.MomentConverged, ParseMomentConvergence);
             pMap.Add(State.Finished, delegate(string s) { if (force_converged && moment_converged) return State.Next; return State.Iteration; });
             pMap.Add(State.Next, ParseNext);
