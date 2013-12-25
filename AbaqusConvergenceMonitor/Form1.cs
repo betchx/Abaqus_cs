@@ -35,14 +35,17 @@ namespace AbaqusConvergenceMonitor
             this.fileSystemWatcher1.Path = dir;
             this.fileSystemWatcher1.Filter = System.IO.Path.GetFileName(path);
             info.Reset();
-            fs = System.IO.File.OpenRead(path);
+            fpos = 0;
+//            fs = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite  );
             ReadMsg();
         }
 
         private void ReadMsg()
         {
+            fs = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite);
             using (var sr = new System.IO.StreamReader(fs))
             {
+                fs.Position = fpos;
                 string line;
                 arr = new List<string>();
                 while ((line = sr.ReadLine()) != null)
