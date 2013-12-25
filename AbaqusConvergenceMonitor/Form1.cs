@@ -38,6 +38,7 @@ namespace AbaqusConvergenceMonitor
             fpos = 0;
 //            fs = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite  );
             ReadMsg();
+            this.fileSystemWatcher1.EnableRaisingEvents = true;
         }
 
         private void ReadMsg()
