@@ -49,12 +49,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemConverter.cs" />
     <Compile Include="SystemConverterTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AbaqusModel\AbaqusModel.csproj">
+      <Project>{947FE0E6-82F4-4E8B-A1C9-9379FB5AE8A2}</Project>
+      <Name>AbaqusModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)\NUnit-2.6.4\bin\nunit.exe $(TargetPath)</PostBuildEvent>
+    <PostBuildEvent>$(SolutionDir)\NUnit-2.6.4\bin\nunit.exe $(TargetPath) /run</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
