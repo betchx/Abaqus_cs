@@ -40,13 +40,15 @@ namespace Abaqus
 
             // 準備
             var g_x = new Vector3D(1, 0, 0);
+            var g_z = new Vector3D(0, 0, 1);
             var l_x = xaxis - origin;
             l_x.Normalize();
 
             // 回転角度 0～180°
-            var angle = Math.Acos( Vector3D.DotProduct(g_x, l_x) ) * 180.0 / Math.PI;
+            var dot = Vector3D.DotProduct(g_x, l_x);
+            var angle = Math.Acos( dot ) * 180.0 / Math.PI;
             // 回転軸 ＝＞ 回転方向．  Acosで算出している関係で回転方向がなくなるので，外積で算出する．
-            var ax = Vector3D.CrossProduct(g_x, l_x);
+            var ax = (dot == -1.0)?g_z:Vector3D.CrossProduct(g_x, l_x);
  
             // グローバルZ軸まわりの回転を追加
             var rot = new AxisAngleRotation3D(ax, angle);
@@ -74,16 +76,18 @@ namespace Abaqus
             l_z.Normalize();
 
             // X軸を合わせる回転
-            var x_ax = Vector3D.CrossProduct(g_x, l_x);
-            var x_angle = Math.Acos(Vector3D.DotProduct(g_x, l_x)) * 180 / Math.PI;
+            var x_dot = Vector3D.DotProduct(g_x, l_x);
+            var x_angle = Math.Acos(x_dot) * 180 / Math.PI;
+            var x_ax = (x_dot == -1.0)?g_z:Vector3D.CrossProduct(g_x, l_x);
             var rot_x = new RotateTransform3D(new AxisAngleRotation3D(x_ax, x_angle));
             
             // 局所Z軸を回転する
             var v_z = rot_x.Transform(l_z);
 
             // Z軸を合わせる回転
-            var z_ax = Vector3D.CrossProduct(g_z, v_z);
-            var z_angle = Math.Acos(Vector3D.DotProduct(g_z, v_z)) * 180 / Math.PI;
+            var z_dot = Vector3D.DotProduct(g_z, v_z);
+            var z_ax = (z_dot==-1.0)?g_x:Vector3D.CrossProduct(g_z, v_z);
+            var z_angle = Math.Acos(z_dot) * 180 / Math.PI;
             var rot_z = new RotateTransform3D(new AxisAngleRotation3D(z_ax, z_angle));
 
             // 登録
