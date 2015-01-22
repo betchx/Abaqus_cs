@@ -6,6 +6,15 @@ using Abaqus;
 
 namespace ModelTest
 {
+    internal static class Linq
+    {
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            foreach (var item in source)
+                action(item);
+        }
+    }
+
     class Program
     {
 
@@ -20,10 +29,5 @@ namespace ModelTest
             }
         }
 
-        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
-        {
-            foreach (var item in source)
-                action(item);
-        }
     }
 }

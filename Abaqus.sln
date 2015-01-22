@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbaqusModel", "AbaqusModel\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelTest", "ModelTest\ModelTest.csproj", "{C0A11A67-618E-474D-A9F9-54DF5963ED46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{1F43D993-BA97-4AEB-A7F5-3A19292FCE3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,16 @@ Global
 		{C0A11A67-618E-474D-A9F9-54DF5963ED46}.Release|Mixed Platforms.Build.0 = Release|x86
 		{C0A11A67-618E-474D-A9F9-54DF5963ED46}.Release|x86.ActiveCfg = Release|x86
 		{C0A11A67-618E-474D-A9F9-54DF5963ED46}.Release|x86.Build.0 = Release|x86
+		{1F43D993-BA97-4AEB-A7F5-3A19292FCE3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F43D993-BA97-4AEB-A7F5-3A19292FCE3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F43D993-BA97-4AEB-A7F5-3A19292FCE3C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1F43D993-BA97-4AEB-A7F5-3A19292FCE3C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1F43D993-BA97-4AEB-A7F5-3A19292FCE3C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1F43D993-BA97-4AEB-A7F5-3A19292FCE3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F43D993-BA97-4AEB-A7F5-3A19292FCE3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F43D993-BA97-4AEB-A7F5-3A19292FCE3C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1F43D993-BA97-4AEB-A7F5-3A19292FCE3C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1F43D993-BA97-4AEB-A7F5-3A19292FCE3C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

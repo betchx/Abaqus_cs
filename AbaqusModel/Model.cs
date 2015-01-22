@@ -22,7 +22,7 @@ namespace Abaqus
         public NSets all_nsets { get; set; }
         public ELSets all_elsets { get; set; }
 
-        public Model()
+        public Model():base("")
         {
             name = "";
             nsets.model = this;
