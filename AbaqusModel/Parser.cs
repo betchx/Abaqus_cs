@@ -43,7 +43,23 @@ namespace Abaqus
         public Model parse_file(string filename)
         {
             lexer.read_file(filename);
+            return parse_lex();
+        }
 
+        public Model parse_string(string target)
+        {
+            lexer.read_string(target);
+            return parse_lex();
+        }
+
+        public Model parse_stream(System.IO.TextReader stream)
+        {
+            lexer.read_stream(stream);
+            return parse_lex();
+        }
+
+        private Model parse_lex()
+        {
             foreach (var item in lexer.commands)
             {
                 if (dict.ContainsKey(item.keyword))

@@ -123,6 +123,40 @@ namespace UnitTest.ParserTests
         }
 
 
+        [Test]
+        public void inputParseTestNode()
+        {
+            var m = parser.parse_string(LexTest.input);
+
+            Assert.AreEqual(3, m.nodes.Count);
+            CollectionAssert.AreEquivalent(new uint[] { 1u, 2u, 3u }, m.nodes.Keys);
+        }
+
+
+        [Test]
+        public void inputParseTestSets()
+        {
+            var m = parser.parse_string(LexTest.input);
+            Assert.AreEqual(2, m.nsets.Count);
+            Assert.AreEqual(1, m.elsets.Count);
+
+            Assert.Contains("ENDS", m.nsets.Keys);
+            Assert.Contains("MID", m.nsets.Keys);
+
+            Assert.Contains("BAR", m.elsets.Keys);
+        }
+
+
+        [Combinatorial]
+        [TestCase("*NSET, NSET=FOO\n1,2,3", Result = "FOO")]
+        [TestCase("*NSET, NSET=bar\n1,2,3", Result = "BAR")]
+        [TestCase("*NSET, nset=baz\n1,2,3", Result = "BAZ")]
+        public string NsetNameTest(string data)
+        {
+            parser.parse_string(data);
+            return parser.model.nsets.First().Value.name;
+        }
+
     }
 
 

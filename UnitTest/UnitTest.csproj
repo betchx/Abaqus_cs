@@ -33,6 +33,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit-gui-runner">
       <HintPath>..\NUnit-2.6.4\bin\lib\nunit-gui-runner.dll</HintPath>
@@ -56,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ElementTest.cs" />
+    <Compile Include="LexTest.cs" />
     <Compile Include="NodeTest.cs" />
     <Compile Include="ParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +73,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)\NUnit-2.6.4\bin\nunit.exe $(TargetPath) /run</PostBuildEvent>
     <!--  <PostBuildEvent>$(SolutionDir)\NUnit-2.6.4\bin\nunit.exe $(TargetPath) /run</PostBuildEvent> -->
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

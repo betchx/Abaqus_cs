@@ -30,7 +30,12 @@ namespace Abaqus
         public bool read_file(string filename)
         {
             var q = lex_file(filename);
+            read_includes(q);
+            return commands.Count > 0;
+        }
 
+        private void read_includes(Queue<Command> q)
+        {
             foreach (var item in q)
             {
                 if (item.keyword.ToUpper() == "INCLUDE")
@@ -42,44 +47,64 @@ namespace Abaqus
                     commands.Enqueue(item);
                 }
             }
-
-            return commands.Count > 0;
-
         }
+
+        public bool read_string(string target)
+        {
+            return read_stream(new System.IO.StringReader(target));
+        }
+
+        public bool read_stream(System.IO.TextReader stream)
+        {
+            var q = lex_stream(stream);
+            read_includes(q);
+            return commands.Count > 0;
+        }
+
 
         private Queue<Command> lex_file(string filename)
         {
-            var res = new Queue<Command>();
-            Command c = new Command(); // Dummy
+            Queue<Command> res = null;
             using (var sr = new System.IO.StreamReader(filename))
             {
-                var line = sr.ReadLine();
-                while (line != null)
-                {
-                    if (line.Substring(0, 2) == "**")
-                    {
-                        //comment
-                    }
-                    else
-                    {
-                        if (line[0] == '*')
-                        {
-                            c = new Command();
-                            var kv = parse_keyword(line);
-                            c.keyword = kv.Key;
-                            c.parameters = kv.Value;
-                            res.Enqueue(c);
-                        }
-                        else
-                        {
-                            c.datablock.Add(line);
-                        }
-                    }
-                    line = sr.ReadLine();
-                }
+                res = lex_stream(sr);
             }
             return res;
         }
-    
+
+
+        private Queue<Command> lex_stream(System.IO.TextReader sr)
+        {
+            var res = new Queue<Command>();
+            Command c = new Command(); // Dummy
+            var line = sr.ReadLine();
+            while (line != null)
+            {
+                if (line.StartsWith("**"))
+                {
+                    //comment
+                }
+                else
+                {
+                    if (line.StartsWith("*"))
+                    {
+                        c = new Command();
+                        var kv = parse_keyword(line);
+                        c.keyword = kv.Key;
+                        c.parameters = kv.Value;
+                        res.Enqueue(c);
+                    }
+                    else
+                    {
+                        c.datablock.Add(line);
+                    }
+                }
+                line = sr.ReadLine();
+            }
+            return res;
+        }
+
+
+
     }
 }
