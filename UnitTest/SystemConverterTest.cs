@@ -346,81 +346,6 @@ namespace UnitTest
             Assert.AreEqual(expected.Z, res.Z, delta, "Z");
         }
 
-
-
-
-        [Test]
-        public void YRotTest()
-        {
-            var transform = new Transform3DGroup();
-
-            var l_0 = new Point3D(1, 2, 3);
-            var g_0 = new Point3D(0, 0, 0);
-            var x = new Point3D(1, 2, 5);
-            var y = new Point3D(1, 4, 3);
-            var one = new Point3D(1, 1, 1);
-            var g_x = new Vector3D(1, 0, 0);
-            var g_z = new Vector3D(0, 0, 1);
-
-            double d = 0.001;
-
-            var l_x = x - l_0;
-            Assert.AreEqual(0.0, l_x.X, d, "l_x.X");
-            Assert.AreEqual(0.0, l_x.Y, d, "l_x.Y");
-            Assert.AreEqual(2.0, l_x.Z, d, "l_x.Z");
-
-            l_x.Normalize();
-
-            Assert.AreEqual(0.0, l_x.X, d, "l_x.X");
-            Assert.AreEqual(0.0, l_x.Y, d, "l_x.Y");
-            Assert.AreEqual(1.0, l_x.Z, d, "l_x.Z");
-
-            var l_z = Vector3D.CrossProduct(l_x, y - l_0);
-            l_z.Normalize();
-
-            Assert.AreEqual(-1.0, l_z.X, d, "l_z.X");
-            Assert.AreEqual( 0.0, l_z.Y, d, "l_z.Y");
-            Assert.AreEqual( 0.0, l_z.Z, d, "l_z.Z");
-
-            // X軸を合わせる回転
-            var x_dot = Vector3D.DotProduct(g_x, l_x);
-
-            Assert.AreEqual(0.0, x_dot, d, "x_dot");
-
-            var x_angle = Math.Acos(x_dot) * 180 / Math.PI;
-            Assert.AreEqual(90.0, x_angle, d, "x_angle");
-
-            var x_ax = (x_dot == -1.0) ? g_z : Vector3D.CrossProduct(g_x, l_x);
-
-            Assert.AreEqual( 0.0, x_ax.X, d, "x_ax.X");
-            Assert.AreEqual(-1.0, x_ax.Y, d, "x_ax.Y");
-            Assert.AreEqual( 0.0, x_ax.Z, d, "x_ax.Z");
-
-            var rot_x = new RotateTransform3D(new AxisAngleRotation3D(x_ax, x_angle));
-            var tmp = rot_x.Transform(one);
-            Assert.AreEqual(-1.0, tmp.X, d, "tmp.X");
-            Assert.AreEqual(1.0, tmp.Y, d, "tmp.Y");
-            Assert.AreEqual(1.0, tmp.Z, d, "tmp.Z");
-
-
-            // 局所Z軸を回転する
-            var inv = rot_x.Inverse;
-            var v_z = inv.Transform(g_0 + l_z) - g_0;
-            Assert.AreEqual(0.0, v_z.X, d, "v_z.X");
-            Assert.AreEqual(0.0, v_z.Y, d, "v_z.Y");
-            Assert.AreEqual(1.0, v_z.Z, d, "v_z.Z");
-
-
-
-            // Z軸を合わせる回転
-            var z_dot = Vector3D.DotProduct(v_z, g_z);
-            var z_ax = (z_dot == -1.0) ? g_x : Vector3D.CrossProduct(v_z, g_z);
-            var z_angle = Math.Acos(z_dot) * 180 / Math.PI;
-            var rot_z = new RotateTransform3D(new AxisAngleRotation3D(z_ax, z_angle));
-
-        }
-
-
         [Test]
         public void ARotTest()
         {
@@ -450,7 +375,6 @@ namespace UnitTest
             Assert.AreEqual(1.0, res.X, 0.01, "x");
             Assert.AreEqual(1.0, res.Y, 0.01, "y");
             Assert.AreEqual(1.0, res.Z, 0.01, "z");
-
         }
 
 
