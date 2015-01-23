@@ -38,8 +38,13 @@ namespace Abaqus
             instances.model = this;
             nodes.model = this;
             elements.model = this;
-           
+
+            all_elsets.model = this;
+            all_nsets.model = this;
+            all_elsets.parent = this;
+            all_nsets.parent = this;
         }
+
         public virtual bool isModel { get { return true; } }
     }
 }

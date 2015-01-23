@@ -20,5 +20,6 @@ namespace Abaqus
             part.model = model;
             base.Add(part.name, part);
         }
+        public Model parent { get { return model; } }
     }
 }

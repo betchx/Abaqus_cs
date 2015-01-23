@@ -23,6 +23,7 @@ namespace Abaqus
 
         }
 
+        public Model parent { get { return model; } }
 
     }
 }
