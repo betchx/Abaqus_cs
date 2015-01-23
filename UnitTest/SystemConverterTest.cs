@@ -317,8 +317,40 @@ namespace UnitTest
         }
 
 
+        [TestCase(
+            /*origin*/      0,     0,     0, 
+            /*X axis*/      1,     1,     1, 
+            /*Y axis*/     -1,     1,     1, 
+            /*target*/      1,     0,     0,
+            /*expected*/0.577, 0.577, 0.577, 
+            /*delta*/ 0.001  )]
+        public void ArbitrayRotate3Test(
+            double a1, double a2, double a3,
+            double b1, double b2, double b3,
+            double p1, double p2, double p3,
+            double c1, double c2, double c3,
+            double d1, double d2, double d3,
+            double delta = 0.001)
+        {
+            Point3D origin = new Point3D(a1, a2, a3);
+            Point3D xaxis = new Point3D(b1, b2, b3);
+            Point3D plane = new Point3D(p1, p2, p3);
+            Point3D source = new Point3D(c1, c2, c3);
+            Point3D expected = new Point3D(d1, d2, d3);
+
+            var conv = new SystemConverter(origin, xaxis, plane);
+            var res = conv.transform.Transform(source);
+
+            Assert.AreEqual(expected.X, res.X, delta, "X");
+            Assert.AreEqual(expected.Y, res.Y, delta, "Y");
+            Assert.AreEqual(expected.Z, res.Z, delta, "Z");
+        }
+
+
+
+
         [Test]
-        public void RotTest()
+        public void YRotTest()
         {
             var transform = new Transform3DGroup();
 
@@ -385,6 +417,39 @@ namespace UnitTest
             var z_ax = (z_dot == -1.0) ? g_x : Vector3D.CrossProduct(v_z, g_z);
             var z_angle = Math.Acos(z_dot) * 180 / Math.PI;
             var rot_z = new RotateTransform3D(new AxisAngleRotation3D(z_ax, z_angle));
+
+        }
+
+
+        [Test]
+        public void ARotTest()
+        {
+            var transform = new Transform3DGroup();
+
+            var i = new Vector3D(1, 0, 0);
+            var j = new Vector3D(0, 1, 0);
+            var k = new Vector3D(0, 0, 1);
+
+            var u = new Vector3D(1, 1, 1);
+            u.Normalize();
+            var t = new Vector3D(-1, 1, 1);
+            t.Normalize();
+            var w = Vector3D.CrossProduct(u, t);
+            w.Normalize();
+            var v = Vector3D.CrossProduct(w, u);
+
+            var m = new MatrixTransform3D(
+                new Matrix3D(
+                    u.X, u.Y, u.Z, 0.0,
+                    v.X, v.Y, v.Z, 0.0,
+                    w.X, w.Y, w.Z, 0.0,
+                    0.0, 0.0, 0.0, 1.0));
+
+            var source = new Point3D(Math.Sqrt(3.0), 0, 0);
+            var res = m.Transform(source);
+            Assert.AreEqual(1.0, res.X, 0.01, "x");
+            Assert.AreEqual(1.0, res.Y, 0.01, "y");
+            Assert.AreEqual(1.0, res.Z, 0.01, "z");
 
         }
 

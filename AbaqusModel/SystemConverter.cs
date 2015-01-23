@@ -67,34 +67,22 @@ namespace Abaqus
         {
             transform = new Transform3DGroup();
 
-            // 準備
-            var g_x = new Vector3D(1, 0, 0);
-            var g_z = new Vector3D(0, 0, 1);
-            var g_0 = new Point3D(0, 0, 0);
-            var l_x = xaxis - origin;
-            var l_z = Vector3D.CrossProduct(l_x, xyplain - origin);
-            l_x.Normalize();
-            l_z.Normalize();
+            var u = xaxis - origin;
+            u.Normalize();
+            var w = Vector3D.CrossProduct(u, xyplain - origin);
+            w.Normalize();
+            var v = Vector3D.CrossProduct(w, u);
+            v.Normalize();
 
-            // X軸を合わせる回転
-            var x_dot = Vector3D.DotProduct(g_x, l_x);
-            var x_angle = Math.Acos(x_dot) * 180 / Math.PI;
-            var x_ax = (x_dot == -1.0)?g_z:Vector3D.CrossProduct(g_x, l_x);
-            var rot_x = new RotateTransform3D(new AxisAngleRotation3D(x_ax, x_angle));
-            
-            // 局所Z軸を回転する
-            var v_z = rot_x.Inverse.Transform(l_z + g_0) - g_0;
-
-            // Z軸を合わせる回転
-            var z_dot = Vector3D.DotProduct(v_z, g_z);
-            var z_ax = (z_dot==-1.0)?g_x:Vector3D.CrossProduct(g_z, v_z);
-            var z_angle = Math.Acos(z_dot) * 180 / Math.PI;
-            var rot_z = new RotateTransform3D(new AxisAngleRotation3D(z_ax, z_angle));
+            // 変換マトリックスの作成
+            var mat = new Matrix3D(
+                        u.X, u.Y, u.Z, 0.0,
+                        v.X, v.Y, v.Z, 0.0,
+                        w.X, w.Y, w.Z, 0.0,
+                        origin.X, origin.Y, origin.Z, 1.0);
 
             // 登録
-            transform.Children.Add(rot_x);
-            transform.Children.Add(rot_z);
-            transform.Children.Add(new TranslateTransform3D(origin.X, origin.Y, origin.Z));
+            transform.Children.Add(new MatrixTransform3D(mat));
         }
 
     }
