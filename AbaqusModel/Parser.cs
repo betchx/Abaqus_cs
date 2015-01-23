@@ -30,7 +30,7 @@ namespace Abaqus
             system = new Transform3DGroup();
             dict = new SortedDictionary<string, command_parser>();
             dict.Add("NODE", parse_node);
-            dict.Add("Element", parse_element);
+            dict.Add("ELEMENT", parse_element);
             dict.Add("NSET", parse_nset);
             dict.Add("ELSET", parse_elset);
             dict.Add("SYSTEM", parse_system);
