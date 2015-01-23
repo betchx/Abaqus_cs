@@ -20,6 +20,8 @@ namespace UnitTest
             3u, 1.0, 0.0, 0.0, d)]
         [TestCase("4, 1., 2., 3.",
             4u, 1.0, 2.0, 3.0, d)]
+        [TestCase("5, 1., 2.,",
+            5u, 1.0, 2.0, 0.0, d)]
         public void SimpleTest(string data, uint id, double x, double y, double z, double delta)
         {
             var node = new Node(data);

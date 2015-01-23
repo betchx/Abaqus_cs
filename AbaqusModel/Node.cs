@@ -56,7 +56,7 @@ namespace Abaqus
         /// <param name="line"></param>
         public Node(string line)
         {
-            var list = line.Split(',');
+            var list = line.Trim().TrimEnd(',').Split(',');
             id = uint.Parse(list.First());
             var xyz = list.Skip(1).Select(s => double.Parse(s)).ToArray();
             var n = xyz.Length;
