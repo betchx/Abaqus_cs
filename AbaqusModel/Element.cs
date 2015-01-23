@@ -9,7 +9,7 @@ namespace Abaqus
     {
         public uint id { get; private set; }
         private uint[] node_ids;
-        public uint this[int n]{
+        public uint this[uint n]{
             get { return node_ids[n]; }
             set { node_ids[n] = value; }
         }
