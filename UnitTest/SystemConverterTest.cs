@@ -157,9 +157,9 @@ namespace UnitTest
 
         //Z 軸回転
         //原点で90°回転
-        [TestCase(/*origin*/0, 0, 0, /*xaxis*/  0, 1, 0, /*plane*/ 0, 1, 0, /*source*/ 2, 0, 0, /*expected*/ 0, 2, 0, /*delta*/ 0.001)]
-        [TestCase(/*origin*/0, 0, 0, /*xaxis*/  0, 1, 0, /*plane*/ 0, 1, 0, /*source*/ 2, 3, 0, /*expected*/ -3, 2, 0, /*delta*/ 0.001)]
-        [TestCase(/*origin*/0, 0, 0, /*xaxis*/  0, 5, 0, /*plane*/ 0, 1, 0, /*source*/ 2, 3, 0, /*expected*/ -3, 2, 0, /*delta*/ 0.001)]
+        [TestCase(/*origin*/0, 0, 0, /*xaxis*/  0, 1, 0, /*plane*/ -1, 0, 0, /*source*/ 2, 0, 0, /*expected*/ 0, 2, 0, /*delta*/ 0.001)]
+        [TestCase(/*origin*/0, 0, 0, /*xaxis*/  0, 1, 0, /*plane*/ -1, 0, 0, /*source*/ 2, 3, 0, /*expected*/ -3, 2, 0, /*delta*/ 0.001)]
+        [TestCase(/*origin*/0, 0, 0, /*xaxis*/  0, 5, 0, /*plane*/ -1, 0, 0, /*source*/ 2, 3, 0, /*expected*/ -3, 2, 0, /*delta*/ 0.001)]
         // 反転
         [TestCase(/*origin*/0, 0, 0, /*xaxis*/  -1, 0, 0, /*plane*/ 0, -1, 0, /*source*/ 2, 0, 0, /*expected*/ -2, 0, 0, /*delta*/ 0.001)]
         [TestCase(/*origin*/0, 0, 0, /*xaxis*/  -1, 0, 0, /*plane*/ 0, -1, 0, /*source*/ 2, 3, 0, /*expected*/ -2, -3, 0, /*delta*/ 0.001)]
