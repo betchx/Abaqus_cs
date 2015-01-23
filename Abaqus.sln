@@ -6,6 +6,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbaqusModel", "AbaqusModel\AbaqusModel.csproj", "{947FE0E6-82F4-4E8B-A1C9-9379FB5AE8A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelTest", "ModelTest\ModelTest.csproj", "{C0A11A67-618E-474D-A9F9-54DF5963ED46}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1F43D993-BA97-4AEB-A7F5-3A19292FCE3C} = {1F43D993-BA97-4AEB-A7F5-3A19292FCE3C}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{1F43D993-BA97-4AEB-A7F5-3A19292FCE3C}"
 EndProject
