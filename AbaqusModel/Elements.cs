@@ -9,10 +9,21 @@ namespace Abaqus
     {
         public Model model { get; set; }
 
-        private new void Add(uint i, Element e)
+        /// <summary>
+        ///   Add(e)のスタブ．
+        /// </summary>
+        /// <param name="i">無視される．（e.idが利用される為）</param>
+        /// <param name="e">追加する要素</param>
+        public new void Add(uint i /*ignored*/, Element e)
         {
-            base.Add(i, e);
+            // redirect
+            this.Add(e);
         }
+
+        /// <summary>
+        ///   要素を追加する．
+        /// </summary>
+        /// <param name="e"></param>
         public void Add(Element e)
         {
             e.parent = this;

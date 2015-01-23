@@ -8,9 +8,11 @@ namespace Abaqus
     public class Nodes : SortedDictionary<uint, Node>
     {
         public Model model { get; set; }
-        private new void Add(uint i, Node n)
+
+        public new void Add(uint i, Node n)
         {
-            base.Add(i, n);
+            // redirect
+            this.Add(n);
         }
         public void Add(Node n)
         {

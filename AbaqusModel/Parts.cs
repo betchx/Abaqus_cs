@@ -8,11 +8,17 @@ namespace Abaqus
     public class Parts: SortedDictionary<string, Part>
     {
         public Model model { get; set; }
+
+        public new void Add(string key, Part part)
+        {
+            // redirect
+            this.Add(part);
+        }
         public void Add(Part part)
         {
             part.parent = this;
             part.model = model;
-            this.Add(part.name, part);
+            base.Add(part.name, part);
         }
     }
 }

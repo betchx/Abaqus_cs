@@ -10,6 +10,12 @@ namespace Abaqus
         public Model model { get; set; }
         public Part parent { get; set; }
 
+        public new void Add(string key, ELSet value)
+        {
+            // redirect
+            this.Add(value);
+        }
+
         public void Add(ELSet set)
         {
             set.parent = this;

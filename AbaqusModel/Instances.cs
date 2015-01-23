@@ -9,9 +9,10 @@ namespace Abaqus
     {
         public Model model { get; set; }
 
-        private new void Add(string s, Instance i)
+        public new void Add(string s, Instance i)
         {
-            base.Add(s, i);
+            // redirect
+            this.Add(i);
         }
 
         public void Add(Instance i)
@@ -19,6 +20,7 @@ namespace Abaqus
             i.parent = this;
             i.model = model;
             base.Add(i.name, i);
+
         }
 
 

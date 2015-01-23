@@ -10,9 +10,9 @@ namespace Abaqus
         public Model model { get; set; }
         public Part parent { get; set; }
 
-        private new void Add(string s, NSet n)
+        public new void Add(string s, NSet nset)
         {
-            base.Add(s, n);
+            this.Add(nset);
         }
 
         internal void Add(NSet nset)
