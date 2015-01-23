@@ -24,7 +24,14 @@ namespace Abaqus
 
         public Model():base("")
         {
-            name = "";
+            parts = new Parts();
+            instances = new Instances();
+            all_nodes = new SortedDictionary<Address, Node>();
+            all_elements = new SortedDictionary<Address, Element>();
+            all_elsets = new ELSets();
+            all_nsets = new NSets();
+
+
             nsets.model = this;
             elsets.model = this;
             parts.model = this;

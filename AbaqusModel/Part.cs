@@ -11,6 +11,10 @@ namespace Abaqus
         public Part(string name)
         {
             this.name= name;
+            nodes = new Nodes();
+            elements = new Elements();
+            nsets = new NSets();
+            elsets = new ELSets();
         }
 
         public string name { get;  set; }

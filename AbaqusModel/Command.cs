@@ -10,5 +10,10 @@ namespace Abaqus
         public string keyword { get; set; }
         public Dictionary<string, string> parameters { get; set; }
         public List<string> datablock { get; set; }
+        public Command()
+        {
+            parameters = new Dictionary<string, string>();
+            datablock = new List<string>();
+        }
     }
 }
