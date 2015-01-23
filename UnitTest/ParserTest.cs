@@ -33,6 +33,54 @@ namespace UnitTest.ParserTests
             File.Delete(file);
         }
 
+
+
+        public IEnumerable<string> SingleNode1
+        {
+            get
+            {
+                yield return "*NODE\n1, 3.0, 0.0, 0.0";
+                yield return "*NODE\n1, 3.0, 0.0";
+                yield return "*NODE\n1, 3.0";
+            }
+        }
+
+        public enum Pos { X, Y, Z}
+
+        public IEnumerable<Tuple<Pos, double>> Node1Positions
+        {
+            get
+            {
+                yield return new Tuple<Pos, double>(Pos.X, 3.0);
+                yield return new Tuple<Pos, double>(Pos.Y, 0.0);
+                yield return new Tuple<Pos, double>(Pos.Z, 0.0);
+            }
+        }
+
+        [Test,Combinatorial]
+        public void SingleNodeTest(
+            [ValueSource("SingleNode1")] string definition,
+            [ValueSource("Node1Positions")] Tuple<Pos, double> res)
+        {
+            var model = parser.parse_string(definition);
+            var node = model.nodes[1u];
+            switch (res.Item1)
+            {
+                case Pos.X:
+                    Assert.AreEqual(res.Item2, node.X, 0.001);
+                    break;
+                case Pos.Y:
+                    Assert.AreEqual(res.Item2, node.Y, 0.001);
+                    break;
+                case Pos.Z:
+                    Assert.AreEqual(res.Item2, node.Z, 0.001);
+                    break;
+                default:
+                    Assert.Fail();
+                    break;
+            }
+        }
+
         [Test]
         public void ParseElementTest()
         {
