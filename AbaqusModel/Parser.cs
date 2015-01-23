@@ -46,12 +46,9 @@ namespace Abaqus
 
             foreach (var item in lexer.commands)
             {
-                if (item.keyword == "NODE")
+                if (dict.ContainsKey(item.keyword))
                 {
-                    parse_node(item);
-                }
-                else if (item.keyword == "ELEMENT")
-                {
+                    dict[item.keyword](item);
                 }
             }
             return model;
