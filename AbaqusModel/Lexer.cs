@@ -75,6 +75,7 @@ namespace Abaqus
                             c.datablock.Add(line);
                         }
                     }
+                    line = sr.ReadLine();
                 }
             }
             return res;
