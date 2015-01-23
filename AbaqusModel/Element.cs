@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Abaqus
 {
-    public class Element
+    public class Element: IComparable<Element>
     {
         public uint id { get; private set; }
         private uint[] node_ids;
@@ -27,5 +27,10 @@ namespace Abaqus
         internal Elements parent { get; set; }
 
         public Model model { get; set; }
+
+        public int CompareTo(Element other)
+        {
+            return id.CompareTo(other.id);
+        }
     }
 }

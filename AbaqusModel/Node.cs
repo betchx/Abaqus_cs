@@ -10,7 +10,7 @@ namespace Abaqus
     /// <summary>
     /// 節点
     /// </summary>
-    public class Node 
+    public class Node : IComparable<Node>
     {
         private Point3D point;
 
@@ -82,5 +82,10 @@ namespace Abaqus
         public Nodes parent { get; set; }
 
         public Model model { get; set; }
+
+        public int CompareTo(Node other)
+        {
+            return id.CompareTo(other.id);
+        }
     }
 }
