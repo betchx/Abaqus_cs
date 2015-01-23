@@ -70,6 +70,7 @@ namespace UnitTest.ParserTests
         [Test]
         public void ParseNodeTest()
         {
+            Assert.NotNull(file);
             using (var f = new StreamWriter(file))
             {
                 f.WriteLine("*NODE");
