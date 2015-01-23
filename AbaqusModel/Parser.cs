@@ -67,7 +67,7 @@ namespace Abaqus
             {
                 var node = new Node(line);
                 nids.Add(node.id);
-                model.nodes.Add(node.id, node);
+                current_part.nodes.Add(node);
             }
             if (cmd.parameters.ContainsKey("NSET"))
             {
@@ -107,9 +107,10 @@ namespace Abaqus
             foreach (var line in lines)
             {
                 var e = new Element(type, line);
-                model.elements.Add(e.id, e);
+                current_part.elements.Add(e.id, e);
                 eids.Add(e.id);
             }
+
             // 指定があれば要素集合を作成
             if (cmd.parameters.ContainsKey("ELSET"))
             {
@@ -118,7 +119,6 @@ namespace Abaqus
                 elset.UnionWith(eids.Select(i => model.elements[i]));
                 model.elsets.Add(name, elset);
             }
-
         }
 
         private void ELSetGenerate(ELSet elset, string line)
