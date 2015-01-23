@@ -157,7 +157,7 @@ namespace Abaqus
             if (elset == null) elset = new ELSet(name);
             if (cmd.parameters.ContainsKey("INSTANCE"))
             {
-                
+                throw new NotImplementedException("Instance option support in parse_elset");
             }
             else
             {
