@@ -59,7 +59,7 @@ namespace UnitTest.ParserTests
             Assert.Contains(4u, elements.Keys);
             var e4 = elements[4u];
             Assert.AreEqual(4u, e4.id);
-            var n4 = new uint[] { 1u, 2u, 3u, 4u };
+            var n4 = new uint[] { 4u, 5u, 6u, 7u };
             for (uint i = 0; i < 4u; i++)
             {
                 Assert.AreEqual(n4[i], e4[i]);
