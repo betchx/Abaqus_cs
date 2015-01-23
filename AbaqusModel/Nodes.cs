@@ -14,9 +14,12 @@ namespace Abaqus
         }
         public void Add(Node n)
         {
-            n.parent = this;
             n.model = model;
-            Add(n.id, n);
+            n.parent = this;
+            base.Add(n.id, n);
+            model.all_nodes.Add(new Address(parent.name, n.id), n);
         }
+
+        public Part parent { get; set; }
     }
 }

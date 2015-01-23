@@ -40,5 +40,6 @@ namespace Abaqus
             elements.model = this;
            
         }
+        public virtual bool isModel { get { return true; } }
     }
 }
