@@ -21,12 +21,21 @@ namespace ModelTest
 
         static void Main(string[] args)
         {
-            var parser = new Abaqus.Parser();
+#if false
+            NUnit.Gui.AppEntry.Main(new string[]{
+                System.Windows.Forms.Application.ExecutablePath, "/run"});
+#endif
+
+            var test = new UnitTest.ParserTests.ParserTest();
+            test.ParseNodeTest();
+
+#if false
             Abaqus.Model model = parser.parse_file("Simple.inp");
             foreach (var k in model.nsets.Keys)
             {
                 System.Console.Out.WriteLine(k);
             }
+#endif
         }
 
     }
