@@ -33,5 +33,8 @@ namespace Abaqus
         }
 
         public Part parent { get; set; }
+
+        // Syntax suger
+        public new Element this[uint index] { get { Element e; return base.TryGetValue(index, out e) ? e : null; } }
     }
 }

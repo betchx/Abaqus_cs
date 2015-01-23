@@ -25,5 +25,8 @@ namespace Abaqus
             // 親がモデルのときはallに登録
             if (parent.isMmodel) { model.all_elsets.Add(set.name, set); }
         }
+
+        // Syntax suger
+        public new ELSet this[string key] { get { ELSet set; return base.TryGetValue(key, out set) ? set : null; } }
     }
 }
