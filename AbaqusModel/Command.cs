@@ -19,11 +19,24 @@ namespace Abaqus
         //Syntax sugers
 
         /// <summary>
-        ///   keyで指定したオプションの値を返す．オプションが存在しない場合はnull.
+        ///   keyで指定したオプションの値を返す．
+        ///   オプションが存在しない場合は情報を追加した上で例外をスロー.
         /// </summary>
         /// <param name="key">オプションの名前（自動的に大文字に変換される）．</param>
         /// <returns>オプションの値もしくはnull．'='のないオプションの場合は空文字列．</returns>
-        public string this[string key] { get { return Has(key) ? parameters[key.ToUpper()] : null; } }
+        public string this[string key]
+        {
+            get
+            {
+                if (Has(key)) return parameters[key.ToUpper()];
+                var msg =        parameters.Keys
+                    .Select(s => "'" + s + "'")
+                    .Aggregate(string.Format("パラメータ'{0}'は存在しません．\n"
+                    + "候補: ", key), (a, b) => a + ", " + b);
+                throw new ArgumentOutOfRangeException(msg);
+            }
+        }
+
         /// <summary>
         ///   keyで指定されたオプションがあるかどうかを判定する．
         ///   keyの大文字小文字は無視．
