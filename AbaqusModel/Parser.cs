@@ -89,7 +89,7 @@ namespace Abaqus
             {
                 var name = cmd.parameters["NSET"];
                 var nset = new NSet(name);
-                nset.UnionWith(nids.Select(i => model.nodes[i]));
+                nset.UnionWith(nids.Select(i => new Address(current_part.name,i)));
                 model.nsets.Add(nset);
             }
         }
@@ -130,9 +130,9 @@ namespace Abaqus
             // 指定があれば要素集合を作成
             if (cmd.parameters.ContainsKey("ELSET"))
             {
-                var name = cmd.parameters["ELSET"];
+                var name = cmd.parameters["ELSET"].ToUpper();
                 var elset = new ELSet(name);
-                elset.UnionWith(eids.Select(i => model.elements[i]));
+                elset.UnionWith(eids.Select(i => new Address(current_part.name, i)));
                 model.elsets.Add(name, elset);
             }
         }
@@ -145,14 +145,14 @@ namespace Abaqus
             var step = arr[2];
             for (uint i = start; i <= last; i += step)
             {
-                elset.Add(model.elements[i]);
+                elset.Add(i);
             }
         }
 
         private void parse_elset(Command cmd)
         {
             if (cmd.keyword != "ELSET") throw new ArgumentException(cmd.keyword + " is not ELSET");
-            var name = cmd.parameters["ELSET"];
+            var name = cmd["ELSET"].ToUpper();
             var elset = model.elsets[name];
             if (elset == null) elset = new ELSet(name);
             if (cmd.parameters.ContainsKey("INSTANCE"))
@@ -162,18 +162,71 @@ namespace Abaqus
             else
             {
                 if (cmd.parameters.ContainsKey("GENERATE"))
-                    cmd.datablock.ForEach(line => ELSetGenerate(elset, line));
+                    cmd.ForEach(line => ELSetGenerate(elset, line));
                 else
-                    cmd.datablock.ForEach(line => elset.UnionWith(line.Split(',').Select(s => model.elements[uint.Parse(s)])));
+                    cmd.ForEach(line => elset.UnionWith(line.Split(',').Select(s => new Address( uint.Parse(s)))));
             }
         }
 
+        internal IEnumerable<uint> generate(string line) { return new IDGenerater(line); }
+
+        internal IEnumerable<Address> node_addresses(string key) { return to_addresses(key, true); }
+        internal IEnumerable<Address> element_addresses(string key) { return to_addresses(key, false); }
+ 
+        private IEnumerable<Address> to_addresses(string key, bool is_n)
+        {
+            uint id;
+            if (key.Contains("."))
+            {
+                var arr = key.Split('.').ToArray();
+                if(uint.TryParse(arr[1],out id) )
+                {
+                    return new  uint[] {id}.Select(i => new Address(arr[0], i));
+                }
+                // other set
+                var ins = model.instances[arr[0]];
+                var part = model.parts[ins.part];
+                if (is_n)
+                {
+                    return part.nsets[arr[1]].Select(a => new Address(arr[0], a.id));
+                }
+                return part.elsets[arr[1]].Select(a => new Address(arr[0], a.id));
+            }
+            else
+            {
+                if (uint.TryParse(key, out id))
+                {
+                    return new uint[] { id }.Select(i => new Address(i));
+                }
+                if (is_n)
+                {
+                    return model.nsets[key].Select(a => new Address(a.id));
+                }
+                return model.elsets[key].Select(a => new Address(a.id));
+            }
+        }
+
+
         private void parse_nset(Command cmd)
         {
-            
+            if( ! cmd.Is("NSET")) throw new ArgumentException(cmd.keyword + " is not NSET");
+            if( ! cmd.Has("NSET") )  throw new ArgumentException("No NSET option is found");
+            var name = cmd["NSET"].ToUpper();
 
- 
-        }
+            // 後回し
+            if (cmd.Has("INSTANCE")) throw new NotImplementedException();
+
+            var nset = new NSet(name);
+            current_part.nsets.Add(nset);
+            if (cmd.Has("GENERATE"))
+            {
+                cmd.ForEach(line => generate(line).ForEach(i => nset.Add(i)));
+            }
+            else
+            {
+                cmd.ForEach(line => line.Split(',').ForEach(s => nset.UnionWith(node_addresses(s))));
+            }
+       }
 
         private void parse_part(Command cmd)
         {
