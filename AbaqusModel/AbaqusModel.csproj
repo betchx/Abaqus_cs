@@ -51,6 +51,7 @@
     </Compile>
     <Compile Include="ELSets.cs" />
     <Compile Include="GenerateEnumerator.cs" />
+    <Compile Include="IDGenerater.cs" />
     <Compile Include="Instance.cs" />
     <Compile Include="Instances.cs" />
     <Compile Include="Lexer.cs" />

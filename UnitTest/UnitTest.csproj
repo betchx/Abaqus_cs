@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="ElementTest.cs" />
     <Compile Include="GenerateEnumeratorTest.cs" />
+    <Compile Include="IDGeneratorTest.cs" />
     <Compile Include="LexTest.cs" />
     <Compile Include="NodeTest.cs" />
     <Compile Include="ParserTest.cs" />
