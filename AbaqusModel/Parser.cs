@@ -93,7 +93,7 @@ namespace Abaqus
                 var name = cmd.parameters["NSET"];
                 var nset = new NSet(name);
                 nset.UnionWith(nids.Select(i => new Address(current_part.name,i)));
-                model.nsets.Add(nset);
+                current_part.nsets.Add(nset);
             }
         }
 
@@ -135,8 +135,8 @@ namespace Abaqus
             {
                 var name = cmd.parameters["ELSET"].ToUpper();
                 var elset = new ELSet(name);
-                elset.UnionWith(eids.Select(i => new Address(current_part.name, i)));
-                model.elsets.Add(name, elset);
+                elset.UnionWith(eids.Select(i => new Address(i)));
+                current_part.elsets.Add(name, elset);
             }
         }
 
