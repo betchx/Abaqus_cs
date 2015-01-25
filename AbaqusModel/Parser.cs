@@ -22,6 +22,76 @@ namespace Abaqus
         private SortedDictionary<string, command_parser> dict;
 
 
+        #region ツール
+        // 書きやすくするための細工．
+        private string dot_join(string parent, string child) { return parent + "." + child; }
+        private Address address(string parent, uint id) { return new Address(parent, id); }
+        private Address address(uint id) { return new Address(id); }
+
+        /// <summary>
+        ///   集合定義でGenerateオプションがあった場合のデータセット文字列から
+        ///   列挙を作成する．
+        /// </summary>
+        /// <param name="line">データセット文字列．(例： 1, 4, 1)</param>
+        /// <returns>列挙</returns>
+        internal IEnumerable<uint> generate(string line) { return new IDGenerater(line); }
+
+
+        /// <summary>
+        ///    節点を表す文字列をアドレスの列挙に展開する．
+        ///    列挙なのは，集合名が設定されることがある為
+        /// </summary>
+        /// <param name="key">対象文字列</param>
+        /// <returns>節点アドレスの列挙</returns>
+        internal IEnumerable<Address> node_addresses(string key) { return to_addresses(key, true); }
+        /// <summary>
+        ///   要素を表す文字列からアドレスの列挙を作成する．
+        ///   列挙なのは集合名が設定されることがある為．
+        /// </summary>
+        /// <param name="key">対象文字列</param>
+        /// <returns>要素アドレスの列挙</returns>
+        internal IEnumerable<Address> element_addresses(string key) { return to_addresses(key, false); }
+
+        /// <summary>
+        ///   文字列をアドレスに変換する下請け関数
+        /// </summary>
+        /// <param name="key">変換対象文字列</param>
+        /// <param name="is_n">節点ならtrue, 要素ならfalse. 集合名を展開する必要があるので区分の為に必要</param>
+        /// <returns>Address</returns>
+        private IEnumerable<Address> to_addresses(string key, bool is_n)
+        {
+            uint id;
+            if (key.Contains(".")) {
+                var arr = key.Split('.').ToArray();
+                if (uint.TryParse(arr[1], out id)) {
+                    return new uint[] { id }.Select(i => new Address(arr[0], i));
+                }
+                // other set
+                var ins = model.instances[arr[0]];
+                var part = model.parts[ins.part];
+                if (is_n) {
+                    return part.nsets[arr[1]].Select(a => new Address(arr[0], a.id));
+                }
+                return part.elsets[arr[1]].Select(a => new Address(arr[0], a.id));
+            } else {
+                if (uint.TryParse(key, out id)) {
+                    return new uint[] { id }.Select(i => new Address(i));
+                }
+                if (is_n) {
+                    return model.nsets[key].Select(a => new Address(a.id));
+                }
+                return model.elsets[key].Select(a => new Address(a.id));
+            }
+        }
+        /// <summary>
+        ///  カンマ区切りの文字列からuintの列挙を作成する．
+        /// </summary>
+        /// <param name="str">非負整数のカンマ区切りの文字列</param>
+        /// <returns>uintの列挙</returns>
+        private static IEnumerable<uint> ids(string str) { return str.Split(',').Select(s => uint.Parse(s)); }
+
+        #endregion
+
         public Parser()
         {
             model = new Model();
@@ -140,17 +210,18 @@ namespace Abaqus
             }
         }
 
-        private void ELSetGenerate(ELSet elset, string line)
-        {
-            var arr = line.Split(',').Select(s => uint.Parse(s)).ToArray();
-            var start = arr[0];
-            var last = arr[1];
-            var step = arr[2];
-            for (uint i = start; i <= last; i += step)
-            {
-                elset.Add(i);
-            }
-        }
+        //private void ELSetGenerate(ELSet elset, string line)
+        //{
+        //    var arr = line.Split(',').Select(s => uint.Parse(s)).ToArray();
+        //    var start = arr[0];
+        //    var last = arr[1];
+        //    var step = arr[2];
+        //    for (uint i = start; i <= last; i += step)
+        //    {
+        //        elset.Add(i);
+        //    }
+        //}
+
 
         /// <summary>
         /// 要素集合のパース
@@ -161,56 +232,39 @@ namespace Abaqus
         {
             if (cmd.keyword != "ELSET") throw new ArgumentException(cmd.keyword + " is not ELSET");
             var name = cmd["ELSET"].ToUpper();
-            var elset = model.elsets[name];
-            if (elset == null) elset = new ELSet(name);
-            if (cmd.parameters.ContainsKey("INSTANCE"))
-            {
-                throw new NotImplementedException("Instance option support in parse_elset");
-            }
-            else
-            {
-                if (cmd.parameters.ContainsKey("GENERATE"))
-                    cmd.ForEach(line => ELSetGenerate(elset, line));
-                else
-                    cmd.ForEach(line => elset.UnionWith(line.Split(',').Select(s => new Address( uint.Parse(s)))));
-            }
-        }
 
-        internal IEnumerable<uint> generate(string line) { return new IDGenerater(line); }
-
-        internal IEnumerable<Address> node_addresses(string key) { return to_addresses(key, true); }
-        internal IEnumerable<Address> element_addresses(string key) { return to_addresses(key, false); }
- 
-        private IEnumerable<Address> to_addresses(string key, bool is_n)
-        {
-            uint id;
-            if (key.Contains("."))
-            {
-                var arr = key.Split('.').ToArray();
-                if(uint.TryParse(arr[1],out id) )
-                {
-                    return new  uint[] {id}.Select(i => new Address(arr[0], i));
-                }
-                // other set
-                var ins = model.instances[arr[0]];
-                var part = model.parts[ins.part];
-                if (is_n)
-                {
-                    return part.nsets[arr[1]].Select(a => new Address(arr[0], a.id));
-                }
-                return part.elsets[arr[1]].Select(a => new Address(arr[0], a.id));
+            // セットは追加が可能なので，存在確認が必要．
+            ELSet elset;
+            if (current_part.elsets.ContainsKey(name)) {
+                elset = current_part.elsets[name];
+            } else {
+                elset = new ELSet(name);
+                current_part.elsets.Add(elset);
             }
-            else
-            {
-                if (uint.TryParse(key, out id))
-                {
-                    return new uint[] { id }.Select(i => new Address(i));
+
+            if (cmd.Has("INSTANCE")) {
+                //throw new NotImplementedException("Instance option support in parse_elset");
+                var ins = cmd["INSTANCE"];
+                if (cmd.Has("GENERATE")) {
+                    foreach (var line in cmd) {
+                        generate(line).ForEach(id => elset.Add(address(ins, id)));
+                    }
+                } else {
+                    foreach (var line in cmd){
+                        ids(line).ForEach(id => elset.Add(address(ins, id)));
+                    }
                 }
-                if (is_n)
-                {
-                    return model.nsets[key].Select(a => new Address(a.id));
+            } else {
+                if (cmd.Has("GENERATE")){
+                    //cmd.ForEach(line => ELSetGenerate(elset, line));
+                    foreach (var line in cmd) {
+                        generate(line).ForEach(id => elset.Add(address(id)));
+                    }
+                }else{
+                    foreach (var line in cmd) {
+                        ids(line).ForEach(id => elset.Add(address(id)));
+                    }
                 }
-                return model.elsets[key].Select(a => new Address(a.id));
             }
         }
 
