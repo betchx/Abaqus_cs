@@ -110,6 +110,7 @@ namespace Abaqus
             dict.Add("ASSEMBLY", parse_assembly);
         }
 
+        #region パースメソッド
         public Model parse_file(string filename)
         {
             lexer.read_file(filename);
@@ -139,7 +140,10 @@ namespace Abaqus
             }
             return model;
         }
+        #endregion
 
+
+        #region コマンドパーザ
         /// <summary>
         ///  ノードコマンドをパースし，モデルに節点を追加する．
         ///  NSETパラメータがあればNsetも追加する．
@@ -392,6 +396,7 @@ namespace Abaqus
 
         }
 
+        #endregion
     }
 }
 
