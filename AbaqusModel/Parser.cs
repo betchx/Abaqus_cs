@@ -82,6 +82,9 @@ namespace Abaqus
             foreach (var line in cmd.datablock)
             {
                 var node = new Node(line);
+                if (system.Children.Count > 0) {
+                    node.Transform(system);
+                }
                 nids.Add(node.id);
                 current_part.nodes.Add(node);
             }
