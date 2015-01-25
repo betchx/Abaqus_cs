@@ -152,6 +152,11 @@ namespace Abaqus
             }
         }
 
+        /// <summary>
+        /// 要素集合のパース
+        /// 登録先はcurrent_part
+        /// </summary>
+        /// <param name="cmd"></param>
         private void parse_elset(Command cmd)
         {
             if (cmd.keyword != "ELSET") throw new ArgumentException(cmd.keyword + " is not ELSET");
@@ -210,6 +215,10 @@ namespace Abaqus
         }
 
 
+        /// <summary>
+        /// 節点集合のパース
+        /// </summary>
+        /// <param name="cmd">コマンド</param>
         private void parse_nset(Command cmd)
         {
             if( ! cmd.Is("NSET")) throw new ArgumentException(cmd.keyword + " is not NSET");
@@ -231,17 +240,32 @@ namespace Abaqus
             }
        }
 
+        /// <summary>
+        ///  パートのパース
+        /// </summary>
+        /// <param name="cmd"></param>
         private void parse_part(Command cmd)
         {
             var name = cmd.parameters["NAME"].ToUpper();
             current_part = new Part(name);
             model.parts.Add(current_part);
         }
+
+        /// <summary>
+        ///  パート定義終了．
+        ///  current_partをモデルに戻す為に必要．
+        /// </summary>
+        /// <param name="cmd">コマンド</param>
         private void parse_end_part(Command cmd)
         {
             current_part = model;
         }
 
+        /// <summary>
+        ///   インスタンスのパース.
+        ///   ALLへの登録も同時に行う．
+        /// </summary>
+        /// <param name="cmd"></param>
         private void parse_instance(Command cmd)
         {
             var name = cmd.parameters["NAME"].ToUpper();
@@ -285,6 +309,12 @@ namespace Abaqus
         {
         }
 
+
+        /// <summary>
+        ///  システムの登録．
+        ///  節点定義で位置を変化させるもの．
+        /// </summary>
+        /// <param name="cmd">コマンド</param>
         private void parse_system(Command cmd)
         {
             system.Children.Clear();
