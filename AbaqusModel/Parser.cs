@@ -153,7 +153,7 @@ namespace Abaqus
         {
             if (cmd.keyword != "NODE") throw new ArgumentException( cmd.keyword + " is not NODE");
             var nids = new List<uint>();
-            foreach (var line in cmd.datablock)
+            foreach (var line in cmd)
             {
                 var node = new Node(line);
                 if (system.Children.Count > 0) {
@@ -162,9 +162,9 @@ namespace Abaqus
                 nids.Add(node.id);
                 current_part.nodes.Add(node);
             }
-            if (cmd.parameters.ContainsKey("NSET"))
+            if (cmd.Has("NSET"))
             {
-                var name = cmd.parameters["NSET"];
+                var name = cmd["NSET"];
                 var nset = new NSet(name);
                 nset.UnionWith(nids.Select(i => new Address(current_part.name,i)));
                 current_part.nsets.Add(nset);
@@ -185,7 +185,7 @@ namespace Abaqus
             bool cont = false;
             var lines = new List<string>();
             string buf = "";
-            foreach (var item in cmd.datablock)
+            foreach (var item in cmd)
             {
                 if (cont) 
                     buf += item.Trim();
@@ -205,9 +205,9 @@ namespace Abaqus
             }
 
             // 指定があれば要素集合を作成
-            if (cmd.parameters.ContainsKey("ELSET"))
+            if (cmd.Has("ELSET"))
             {
-                var name = cmd.parameters["ELSET"].ToUpper();
+                var name = cmd["ELSET"].ToUpper();
                 var elset = new ELSet(name);
                 elset.UnionWith(eids.Select(i => new Address(i)));
                 current_part.elsets.Add(name, elset);
@@ -304,7 +304,7 @@ namespace Abaqus
         /// <param name="cmd"></param>
         private void parse_part(Command cmd)
         {
-            var name = cmd.parameters["NAME"].ToUpper();
+            var name = cmd["NAME"].ToUpper();
             current_part = new Part(name);
             model.parts.Add(current_part);
         }
