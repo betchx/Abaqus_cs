@@ -6,15 +6,15 @@ using System.Windows.Media.Media3D;
 
 namespace Abaqus
 {
-    public class Instance
+    public class Instance : Part // TODO: Partと共通の基底クラスを作成し，そちらを使う様にする．
     {
-        public string name { get; set; }
         public string part { get; set; }
         public Transform3DGroup system { get; set; }
 
-        public Instance(string name, string part, string trans = "", string rot = "")
+        public new Instances parent { get; set; }
+
+        public Instance(string name, string part, string trans = "", string rot = ""):base(name)
         {
-            this.name = name;
             this.part = part;
             if( trans != ""){
                 var arr = trans.Split(',').Select(s => double.Parse(s)).ToArray();
@@ -31,9 +31,17 @@ namespace Abaqus
             }
         }
 
+        //private Address address(uint id) { return new Address(name, id); }
 
-        public Model model { get; set; }
-
-        public Instances parent { get; set; }
+        //public void Add(Node n)
+        //{
+        //    var pos = system.Transform(n.pos);
+        //    nodes.Add(new Node(n.id, pos.X, pos.Y, pos.Z));
+        //}
+        //public void Add(Nodes ns) { ns.Values.ForEach(n => Add(n)); }
+        //public void Add(Elements es) { es.Values.ForEach(e => Add(e)); }
+        //public void Add(Element e) { elements.Add(e); }
+        //public void Add(NSet ns) { nsets.Add(ns); }
+        //public void Add(ELSet es) { elsets.Add(es); }
     }
 }
