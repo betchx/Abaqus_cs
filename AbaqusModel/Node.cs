@@ -49,6 +49,20 @@ namespace Abaqus
             this.id = id;
             point = new Point3D(x, y, z);
         }
+
+        /// <summary>
+        ///  各要素と変換を明示して作成する．
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="system">変換</param>
+        public Node(uint id, double x, double y, double z, Transform3DGroup system)
+        {
+            this.id = id;
+            point = system.Transform(new Point3D(x, y, z));
+        }
         /// <summary>
         ///  Inpの節点定義文字列から作成する．
         ///  メインのコンストラクタ．
@@ -65,6 +79,12 @@ namespace Abaqus
             if(n > 2) point.Z = xyz[2];
         }
 
+        public Node(string line, Transform3DGroup system):this(line)
+        {
+            point = system.Transform(point);
+        }
+
+
         public Node translate_by(TranslateTransform3D  translator)
         {
             point = translator.Transform(point);
@@ -77,8 +97,6 @@ namespace Abaqus
             return this;
         }
 
-
-
         public Nodes parent { get; set; }
 
         public Model model { get; set; }
@@ -86,6 +104,11 @@ namespace Abaqus
         public int CompareTo(Node other)
         {
             return id.CompareTo(other.id);
+        }
+
+        internal void Transform(Transform3DGroup system)
+        {
+            pos = system.Transform(pos);
         }
     }
 }
