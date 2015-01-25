@@ -143,7 +143,7 @@ namespace UnitTest.ParserTests
             }
 
             const double d = 0.001; // delta
- 
+
             var n1 = nodes[1u];
             Assert.AreEqual(1u, n1.id, "n1.ID");
             Assert.AreEqual(1.0, n1.X, d, "n1.X");
@@ -190,7 +190,6 @@ namespace UnitTest.ParserTests
 
             Assert.Contains("ENDS", m.nsets.Keys);
             Assert.Contains("MID", m.nsets.Keys);
-
             Assert.Contains("BAR", m.elsets.Keys);
         }
 
@@ -205,6 +204,35 @@ namespace UnitTest.ParserTests
             return parser.model.nsets.First().Value.name;
         }
 
+        const string inp1 = @"*heading
+*part, name=BAZ
+*NODE, NSET=BAR
+1, 1.
+2, 2.
+3, 3.
+*ELEMENT, TYPE=B31
+1, 1, 2
+2, 2, 3
+*end part
+*assembly
+*instance, name=foo, part=baz
+*end instance
+*end assembly
+";
+
+        [TestCase(inp1, Result="FOO.BAR")]
+        public string InstanceNSetNameTest(string data)
+        {
+            var all = parser.parse_string(data).all_nsets;
+            return all.Keys.FirstOrDefault();
+        }
+
+        [TestCase(inp1, Result=1)]
+        public int InstanceNSetCountTest(string data)
+        {
+            return parser.parse_string(data).all_nsets.Count;
+        }
+    }
     }
 
 
