@@ -245,11 +245,40 @@ namespace Abaqus
         private void parse_instance(Command cmd)
         {
             var name = cmd.parameters["NAME"].ToUpper();
-            var part = cmd.parameters["PART"].ToUpper();
+            var part_name = cmd.parameters["PART"].ToUpper();
             var trans = ""; if (cmd.datablock.Count > 1) trans = cmd.datablock[0].Trim();
             var rot = ""; if (cmd.datablock.Count > 2) rot = cmd.datablock[1].Trim();
-            var ins = new Instance(name, part, trans, rot);
+            var ins = new Instance(name, part_name, trans, rot);
             model.instances.Add(ins);
+
+            // パート
+            var part = model.parts[part_name];
+
+            // 移動させながらノードをコピー
+            foreach (var n in part.nodes.Values) {
+                var pos = ins.system.Transform(n.pos);
+                ins.nodes.Add(new Node(n.id, pos.X, pos.Y, pos.Z));
+            }
+            // 他はリンクでコピーすれば十分
+            ins.elements = part.elements;
+            ins.elsets = part.elsets;
+            ins.nsets = part.nsets;
+
+            // Allシリーズへの追加
+            // こちらはAddressへの変換があるのでひと手間かかる．
+            part.nodes.ForEach(kv => model.all_nodes.Add(address(name, kv.Key), kv.Value));
+            part.elements.ForEach(kv => model.all_elements.Add(address(name, kv.Key), kv.Value));
+            foreach (var val in part.nsets.Values) {
+                var nset = new NSet(dot_join(name, val.name));
+                val.ForEach( a => nset.Add(address(name, a.id)));
+                model.all_nsets.Add(nset);
+            }
+            foreach (var val in part.elsets.Values) {
+                var es = new ELSet(dot_join(name, val.name));
+                val.ForEach(a => es.Add(address(name, a.id)));
+                model.all_elsets.Add(es);
+            }
+
         }
 
         private void parse_assembly(Command cmd)
