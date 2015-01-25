@@ -233,6 +233,87 @@ namespace UnitTest.ParserTests
             return parser.parse_string(data).all_nsets.Count;
         }
     }
+
+    public class Input
+    {
+        public string Value { get; private set; }
+        public Input(string s)
+        {
+            Value = s;
+        }
+        public static implicit operator string(Input i) { return i.Value; }
+    }
+
+    public class Name
+    {
+        public string Value { get; private set; }
+        public Name(string s)
+        {
+            Value = s;
+        }
+        public static implicit operator string(Name n) { return n.Value; }
+    }
+
+    public class InstanceNsetTheory
+    {
+
+        [Datapoints]
+        public static IEnumerable<Input> data
+        {
+            get
+            {
+                yield return new Input(@"*heading
+*part, name=BAZ
+*NODE, NSET=BAR
+1, 1.
+2, 2.
+3, 3.
+*ELEMENT, TYPE=B31
+1, 1, 2
+2, 2, 3
+*end part
+*assembly, name=Hoge
+*instance, name=foo, part=baz
+*end instance
+*end assembly
+");
+            }
+        }
+
+        [Datapoint]
+        public static Name name = new Name("FOO.BAR");
+
+        [Datapoints]
+        public uint[] ids = new  uint[] {1u, 2u, 3u };
+
+        [Theory]
+        public void NameTest(Input data, Name set_name)
+        {
+            var model = parser.parse_string(data);
+            var all = model.all_nsets;
+
+            CollectionAssert.Contains(all.Keys, set_name.Value);
+        }
+
+        Parser parser;
+
+        [SetUp]
+        public void Setup()
+        {
+            parser = new Parser();
+        }
+
+        [Theory]
+        public void IDTest(Input data, Name name, uint id)
+        {
+            var model = parser.parse_string(data);
+            var all = model.all_nsets;
+
+            var instance_name = name.Value.Split('.').First();
+
+            CollectionAssert.Contains(all.Values.First(), new Address(instance_name, id));
+        }
+
     }
 
 
