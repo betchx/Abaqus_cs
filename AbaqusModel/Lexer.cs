@@ -22,8 +22,9 @@ namespace Abaqus
             var list = line.Substring(1).Split(',');
             var keyword = list[0].Trim();
             var dic = new Dictionary<string, string>();
-            list.Where(x => x.Contains('=')).Select(x => x.Split('=')).AsParallel().ForAll(x => dic.Add(x[0].Trim().ToUpper(), x[1].Trim()));
-            list.Skip(1).Where(x => !x.Contains('=')).AsParallel().ForAll(x => dic.Add(x.ToUpper(), ""));
+            list.Where(x => x.Contains('=')).Select(x => x.Split('='))
+                .ForEach(x => dic.Add(x[0].Trim().ToUpper(), x[1].Trim()));
+            list.Skip(1).Where(x => !x.Contains('=')).ForEach(x => dic.Add(x.ToUpper(), ""));
             return new KeyValuePair<string, Dictionary<string, string>>(keyword, dic);
         }
 
