@@ -255,7 +255,7 @@ namespace UnitTest.ParserTests
         public static implicit operator string(Name n) { return n.Value; }
     }
 
-    public class InstanceNsetTheory
+    public class AssemblyTheory
     {
 
         [Datapoints]
@@ -347,7 +347,80 @@ namespace UnitTest.ParserTests
             CollectionAssert.Contains(all.Values.First(), new Address(instance_name, id));
         }
 
+        [Theory]
+        public void ModelTest(Input data)
+        {
+            //Assert.Fail();
+            Assume.That(data.Value, Is.Not.Null.Or.Empty);
+            var model = parser.parse_string(data);
+            Assert.IsNotNull(model);
+            Assert.AreSame(model, model.model);
+            model.all_elements.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+            model.all_elsets.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+            model.all_nodes.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+            model.all_nsets.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+            model.elements.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+            model.elsets.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+            model.instances.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+            model.nodes.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+            model.nsets.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+            model.parts.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+        }
+
+        [Theory]
+        public void ParentTest(Input data)
+        {
+            //Assert.Fail();
+            Assume.That(data.Value, Is.Not.Null.Or.Empty);
+            var model = parser.parse_string(data);
+            Assert.IsNotNull(model);
+            Assert.IsNull(model.parent);
+
+            model.elements.ForEach(kv => Assert.AreSame(model.elements, kv.Value.parent));
+            model.elsets.ForEach(kv => Assert.AreSame(model.elsets, kv.Value.parent));
+            model.instances.ForEach(kv => Assert.AreSame(model.instances, kv.Value.parent));
+            model.nodes.ForEach(kv => Assert.AreSame(model.nodes, kv.Value.parent));
+            model.nsets.ForEach(kv => Assert.AreSame(model.nsets, kv.Value.parent));
+            model.parts.ForEach(kv => Assert.AreSame(model.parts, kv.Value.parent));
+        }
+
+        [Theory]
+        public void AllElSetParentTest(Input data)
+        {
+            //Assert.Fail();
+            Assume.That(data.Value, Is.Not.Null.Or.Empty);
+            var model = parser.parse_string(data);
+            model.all_elsets.ForEach(kv => Assert.AreSame(model.all_elsets, kv.Value.parent));
+        }
+
+        [Theory]
+        public void AllNSetsParentTest(Input data)
+        {
+            //Assert.Fail();
+            Assume.That(data.Value, Is.Not.Null.Or.Empty);
+            var model = parser.parse_string(data);
+            model.all_nsets.ForEach(kv => Assert.AreSame(model.all_nsets, kv.Value.parent));
+        }
+
+        [Theory]
+        public void AllElementParentTest(Input data)
+        {
+            //Assert.Fail();
+            Assume.That(data.Value, Is.Not.Null.Or.Empty);
+            var model = parser.parse_string(data);
+
+            // 要素は共通の為親は一致しない．
+            model.all_elements.ForEach(kv => Assert.That(kv.Value.parent, Is.Not.SameAs(model.all_elements)));
+        }
+
+        [Theory]
+        public void AllNodeParentTest(Input data)
+        {
+            //Assert.Fail();
+            Assume.That(data.Value, Is.Not.Null.Or.Empty);
+            var model = parser.parse_string(data);
+            // 節点は共通の為親は一致しない．
+            model.all_nodes.ForEach(kv => Assert.That(kv.Value.parent, Is.Not.SameAs(model.all_nodes)));
+        }
     }
-
-
 }
