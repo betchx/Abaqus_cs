@@ -151,7 +151,8 @@ namespace Abaqus
         /// <param name="cmd">ノードコマンド</param>
         private void parse_node(Command cmd)
         {
-            if (cmd.keyword != "NODE") throw new ArgumentException( cmd.keyword + " is not NODE");
+            cmd.must_be(Keyword.NODE);
+
             var nids = new List<uint>();
             foreach (var line in cmd)
             {
@@ -178,7 +179,8 @@ namespace Abaqus
         /// <param name="cmd">エレメントコマンド</param>
         private void parse_element(Command cmd)
         {
-            if (cmd.keyword != "ELEMENT") throw new ArgumentException(cmd.keyword + " is not ELEMENT", "cmd");
+            cmd.must_be(Keyword.ELEMENT);
+
             var type = cmd.parameters["TYPE"];
 
             // 継続行（最後がカンマ）をまとめる
@@ -234,7 +236,7 @@ namespace Abaqus
         /// <param name="cmd"></param>
         private void parse_elset(Command cmd)
         {
-            if (cmd.keyword != "ELSET") throw new ArgumentException(cmd.keyword + " is not ELSET");
+            cmd.must_be(Keyword.ELSET);
             var name = cmd["ELSET"].ToUpper();
 
             // セットは追加が可能なので，存在確認が必要．
@@ -279,7 +281,8 @@ namespace Abaqus
         /// <param name="cmd">コマンド</param>
         private void parse_nset(Command cmd)
         {
-            if( ! cmd.Is("NSET")) throw new ArgumentException(cmd.keyword + " is not NSET");
+            cmd.must_be(Keyword.NSET);
+
             if( ! cmd.Has("NSET") )  throw new ArgumentException("No NSET option is found");
             var name = cmd["NSET"].ToUpper();
 
@@ -304,6 +307,8 @@ namespace Abaqus
         /// <param name="cmd"></param>
         private void parse_part(Command cmd)
         {
+            cmd.must_be(Keyword.PART);
+
             var name = cmd["NAME"].ToUpper();
             current_part = new Part(name);
             model.parts.Add(current_part);
@@ -316,6 +321,7 @@ namespace Abaqus
         /// <param name="cmd">コマンド</param>
         private void parse_end_part(Command cmd)
         {
+            cmd.must_be(Keyword.END_PART);
             current_part = model;
         }
 
@@ -326,6 +332,8 @@ namespace Abaqus
         /// <param name="cmd"></param>
         private void parse_instance(Command cmd)
         {
+            cmd.must_be(Keyword.INSTANCE);
+
             var name = cmd.parameters["NAME"].ToUpper();
             var part_name = cmd.parameters["PART"].ToUpper();
             var trans = ""; if (cmd.datablock.Count > 1) trans = cmd.datablock[0].Trim();
@@ -365,6 +373,7 @@ namespace Abaqus
 
         private void parse_assembly(Command cmd)
         {
+            cmd.must_be(Keyword.ASSEMBLY);
         }
 
 
@@ -375,6 +384,8 @@ namespace Abaqus
         /// <param name="cmd">コマンド</param>
         private void parse_system(Command cmd)
         {
+            cmd.must_be(Keyword.SYSTEM);
+
             system.Children.Clear();
             var line = cmd.datablock[0].Trim();
             if (cmd.datablock.Count > 1)

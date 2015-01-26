@@ -63,6 +63,14 @@ namespace Abaqus
         {
             return datablock.GetEnumerator();
         }
+
+        // Check method
+        public void must_be(string expected)
+        {
+            if (keyword != expected) throw new ArgumentException(keyword + " is not " + expected);
+        }
+
+
         public override string ToString()
         {
             return  "*"+keyword+"(" + parameters.Count.ToString() + ")[" + datablock.Count.ToString() + "]" ;
