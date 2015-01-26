@@ -16,6 +16,8 @@ namespace Abaqus
         public Instance(string name, string part, Model model, string trans = "", string rot = ""):base(name, model)
         {
             this.part = part;
+            system = new Transform3DGroup();
+
             if( trans != ""){
                 var arr = trans.Split(',').Select(s => double.Parse(s)).ToArray();
                 var tr = new TranslateTransform3D(arr[0], arr[1], arr[2]);
