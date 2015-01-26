@@ -43,5 +43,10 @@ namespace Abaqus
             return new Address(id);
         }
 
+        public override string ToString()
+        {
+            return (name.Length > 0) ? (name + ".") : "" + id.ToString();
+        }
+
     }
 }

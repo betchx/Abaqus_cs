@@ -110,5 +110,9 @@ namespace Abaqus
         {
             pos = system.Transform(pos);
         }
+        public override string ToString()
+        {
+            return base.ToString() + ":(" + id.ToString() + ")[" + pos.ToString() + "]";
+        }
     }
 }

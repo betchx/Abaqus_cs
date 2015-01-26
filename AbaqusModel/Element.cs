@@ -32,5 +32,9 @@ namespace Abaqus
         {
             return id.CompareTo(other.id);
         }
+        public override string ToString()
+        {
+            return base.ToString() + "(" + id.ToString() + ")[" + type + "]";
+        }
     }
 }

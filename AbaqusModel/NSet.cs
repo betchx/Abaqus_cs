@@ -17,5 +17,9 @@ namespace Abaqus
         public NSets parent { get; set; }
 
         public Model model { get; set; }
+        public override string ToString()
+        {
+            return base.ToString() + "(" + name + ")[" +Count.ToString() + "]";
+        }
     }
 }

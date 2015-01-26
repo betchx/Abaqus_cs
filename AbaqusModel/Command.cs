@@ -63,5 +63,9 @@ namespace Abaqus
         {
             return datablock.GetEnumerator();
         }
+        public override string ToString()
+        {
+            return  "*"+keyword+"(" + parameters.Count.ToString() + ")[" + datablock.Count.ToString() + "]" ;
+        }
     }
 }
