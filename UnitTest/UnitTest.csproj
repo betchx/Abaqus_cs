@@ -75,7 +75,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)\NUnit-2.6.4\bin\nunit-console.exe $(TargetPath) /nologo /noxml /timeout=1000</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)\NUnit-2.6.4\bin\nunit-console.exe" "$(TargetPath)" /nologo /noxml /timeout=1000 
+</PostBuildEvent>
     <!--  <PostBuildEvent>$(SolutionDir)\NUnit-2.6.4\bin\nunit.exe $(TargetPath) /run</PostBuildEvent> -->
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
