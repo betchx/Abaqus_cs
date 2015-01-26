@@ -27,5 +27,9 @@ namespace Abaqus
         // Syntax suger
         public new Node this[uint index] { get { Node n; return TryGetValue(index, out n) ? n : null; } }
 
+        public override string ToString()
+        {
+            return "Nodes:" + base.ToString();
+        }
     }
 }

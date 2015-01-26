@@ -28,5 +28,10 @@ namespace Abaqus
 
         // Syntax suger
         public new ELSet this[string key] { get { ELSet set; return base.TryGetValue(key, out set) ? set : null; } }
+
+        public override string ToString()
+        {
+            return "ELSets" + base.ToString();
+        }
     }
 }

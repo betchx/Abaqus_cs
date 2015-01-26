@@ -28,5 +28,10 @@ namespace Abaqus
         // Syntax suger
         public new NSet this[string key] { get { NSet set; return this.TryGetValue(key, out set) ? set : null; } }
 
+
+        public override string ToString()
+        {
+            return "NSets:" + base.ToString();
+        }
     }
 }

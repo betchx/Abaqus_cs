@@ -36,5 +36,10 @@ namespace Abaqus
 
         // Syntax suger
         public new Element this[uint index] { get { Element e; return base.TryGetValue(index, out e) ? e : null; } }
+
+        public override string ToString()
+        {
+            return "Elements:" + base.ToString();
+        }
     }
 }
