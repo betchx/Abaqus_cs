@@ -356,7 +356,9 @@ namespace Abaqus
 
             // Allシリーズへの追加
             // こちらはAddressへの変換があるのでひと手間かかる．
-            part.nodes.ForEach(kv => model.all_nodes.Add(address(name, kv.Key), kv.Value));
+
+            // Nodeは新規作成に伴い登録されているのでスキップ．
+            //  part.nodes.ForEach(kv => model.all_nodes.Add(address(name, kv.Key), kv.Value));
             part.elements.ForEach(kv => model.all_elements.Add(address(name, kv.Key), kv.Value));
             foreach (var val in part.nsets.Values) {
                 var nset = new NSet(dot_join(name, val.name));
