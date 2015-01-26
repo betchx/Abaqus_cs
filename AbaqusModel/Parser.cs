@@ -337,17 +337,15 @@ namespace Abaqus
                 var pos = ins.system.Transform(n.pos);
                 ins.nodes.Add(new Node(n.id, pos.X, pos.Y, pos.Z));
             }
-            // 他はリンクでコピーすれば十分
-            ins.elements = part.elements;
-            ins.elsets = part.elsets;
-            ins.nsets = part.nsets;
+            //ins.elements = part.elements;
+            foreach (var original in part.elements.Values) {
+                ins.elements.Add(new Element(original));
+            }
+            part.elsets.ForEach(kv => ins.elsets.Add(kv.Value));
+            part.nsets.ForEach(kv => ins.nsets.Add(kv.Value));
 
             // Allシリーズへの追加
             // こちらはAddressへの変換があるのでひと手間かかる．
-
-            // Nodeは新規作成に伴い登録されているのでスキップ．
-            //  part.nodes.ForEach(kv => model.all_nodes.Add(address(name, kv.Key), kv.Value));
-            part.elements.ForEach(kv => model.all_elements.Add(address(name, kv.Key), kv.Value));
             foreach (var val in part.nsets.Values) {
                 var nset = new NSet(dot_join(name, val.name));
                 val.ForEach( a => nset.Add(address(name, a.id)));

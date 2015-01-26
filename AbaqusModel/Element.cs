@@ -15,12 +15,21 @@ namespace Abaqus
         }
         public string type { get; private set; }
 
-        public Element(string type, string line)
+        private Element(string type)
         {
-            this.type = type;
+            this.type = type.ToUpper();
+        }
+
+        public Element(string type, string line):this(type)
+        {
             var arr = line.Split(',').Select(s => uint.Parse(s));
             id = arr.First();
             node_ids = arr.Skip(1).ToArray();
+        }
+        public Element(Element template):this(template.type)
+        {
+            this.id = template.id;
+            this.node_ids = template.node_ids; // shallow copy
         }
 
 
