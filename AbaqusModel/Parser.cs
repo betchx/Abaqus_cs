@@ -99,15 +99,15 @@ namespace Abaqus
             current_part = model;
             system = new Transform3DGroup();
             dict = new SortedDictionary<string, command_parser>();
-            dict.Add("NODE", parse_node);
-            dict.Add("ELEMENT", parse_element);
-            dict.Add("NSET", parse_nset);
-            dict.Add("ELSET", parse_elset);
-            dict.Add("SYSTEM", parse_system);
-            dict.Add("PART", parse_part);
-            dict.Add("END PART", parse_end_part);
-            dict.Add("INSTANCE", parse_instance);
-            dict.Add("ASSEMBLY", parse_assembly);
+            dict.Add(Keyword.NODE, parse_node);
+            dict.Add(Keyword.ELEMENT, parse_element);
+            dict.Add(Keyword.NSET, parse_nset);
+            dict.Add(Keyword.ELSET, parse_elset);
+            dict.Add(Keyword.SYSTEM, parse_system);
+            dict.Add(Keyword.PART, parse_part);
+            dict.Add(Keyword.END_PART, parse_end_part);
+            dict.Add(Keyword.INSTANCE, parse_instance);
+            dict.Add(Keyword.ASSEMBLY, parse_assembly);
         }
 
         #region パースメソッド
