@@ -216,19 +216,6 @@ namespace Abaqus
             }
         }
 
-        //private void ELSetGenerate(ELSet elset, string line)
-        //{
-        //    var arr = line.Split(',').Select(s => uint.Parse(s)).ToArray();
-        //    var start = arr[0];
-        //    var last = arr[1];
-        //    var step = arr[2];
-        //    for (uint i = start; i <= last; i += step)
-        //    {
-        //        elset.Add(i);
-        //    }
-        //}
-
-
         /// <summary>
         /// 要素集合のパース
         /// 登録先はcurrent_part
@@ -237,6 +224,7 @@ namespace Abaqus
         private void parse_elset(Command cmd)
         {
             cmd.must_be(Keyword.ELSET);
+
             var name = cmd["ELSET"].ToUpper();
 
             // セットは追加が可能なので，存在確認が必要．
