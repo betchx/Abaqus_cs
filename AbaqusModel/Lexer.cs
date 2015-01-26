@@ -20,7 +20,7 @@ namespace Abaqus
         private KeyValuePair<string,Dictionary<string,string> > parse_keyword(string line)
         {
             var list = line.Substring(1).Split(',');
-            var keyword = list[0].Trim();
+            var keyword = list[0].Trim().ToUpper();
             var dic = new Dictionary<string, string>();
             list.Where(x => x.Contains('=')).Select(x => x.Split('='))
                 .ForEach(x => dic.Add(x[0].Trim().ToUpper(), x[1].Trim()));
@@ -104,8 +104,6 @@ namespace Abaqus
             }
             return res;
         }
-
-
 
     }
 }
