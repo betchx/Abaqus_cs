@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Abaqus
 {
-    public class Element: IComparable<Element>
+    public class Element: IComparable<Element>, IEnumerable<uint>
     {
         public uint id { get; private set; }
         private uint[] node_ids;
@@ -35,6 +35,22 @@ namespace Abaqus
         public override string ToString()
         {
             return base.ToString() + "(" + id.ToString() + ")[" + type + "]";
+        }
+
+        public System.Collections.Generic.IEnumerator<uint> GetEnumerator()
+        {
+            foreach (var item in node_ids) {
+                yield return item;
+            }
+        }
+
+        public int Count { get { return node_ids.Length; } }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            foreach (var item in node_ids) {
+                yield return item;
+            }
         }
     }
 }
