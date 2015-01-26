@@ -63,13 +63,13 @@ namespace UnitTest
         [TestCase(4u, 6u, 1u, Result = 6u)]
         [TestCase(4u, 6u, 10u, Result = 4u)]
         public uint LastValueTest(uint start, uint last, uint step)
-		{
-			//Assert.Fail();
+        {
+            //Assert.Fail();
             var e = new GenerateEnumerator(start, last, step);
             uint res = 0u;
             while (e.MoveNext()) { res = e.Current; }
             return res;
-		}
+        }
 
         [Test]
         public void InvalidOperationTest()

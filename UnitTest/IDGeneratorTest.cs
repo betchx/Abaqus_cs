@@ -38,7 +38,7 @@ namespace UnitTest
         public static IEnumerable<TestCaseData> SourceLast
         {
             get {
-				yield return new TestCaseData("1, 5, 1").Returns(5);
+                yield return new TestCaseData("1, 5, 1").Returns(5);
                 yield return new TestCaseData("10, 15, 1").Returns(15u);
                 yield return new TestCaseData("20, 30, 5").Returns(30u);
                 yield return new TestCaseData("40,50,10").Returns(50u);
@@ -57,7 +57,7 @@ namespace UnitTest
         public static IEnumerable<TestCaseData> SourceCount
         {
             get {
-				yield return new TestCaseData("1,5, 1").Returns(5);
+                yield return new TestCaseData("1,5, 1").Returns(5);
                 yield return new TestCaseData("10, 15, 1").Returns(6);
                 yield return new TestCaseData("20, 30, 5").Returns(3);
                 yield return new TestCaseData("40,50,10").Returns(2);
@@ -75,7 +75,7 @@ namespace UnitTest
         public static IEnumerable<TestCaseData> SourceArray
         {
             get {
-				yield return new TestCaseData("1,5,1").Returns(new uint[]{ 1u, 2u, 3u, 4u, 5u});
+                yield return new TestCaseData("1,5,1").Returns(new uint[]{ 1u, 2u, 3u, 4u, 5u});
                 yield return new TestCaseData("1,5,2").Returns(new uint[]{ 1u, 3u, 5u});
                 yield return new TestCaseData("10, 20, 10").Returns(new uint[]{10u, 20u});
 

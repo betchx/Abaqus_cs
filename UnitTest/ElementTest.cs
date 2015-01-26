@@ -32,9 +32,9 @@ namespace UnitTest
             Assert.AreEqual(id, elm.id, "ID");
 
             for (uint i = 0; i < nodes.Length; i++)
-			{
+            {
                 Assert.AreEqual(nodes[i], elm[i], "n{0}", (i+1) );
-			}
+            }
 
         }
     }
