@@ -29,6 +29,7 @@ namespace UnitTest
         {
             var elm = new Element(type, line);
 
+            Assert.AreEqual(nodes.Length, (int)elm.Count());
             Assert.AreEqual(id, elm.id, "ID");
 
             for (uint i = 0; i < nodes.Length; i++)
