@@ -27,11 +27,12 @@ namespace ModelTest
 #endif
 
             var test = new UnitTest.ParserTests.ParserTest();
+            //test.setup();
+            //test.ParseElementTest();
+            //test.teardown();
 
-
-            test.setup();
-            test.ParseElementTest();
-            test.teardown();
+            var parser = new Abaqus.Parser();
+            var model = parser.parse_string(UnitTest.ParserTests.ParserTest.inp1);
 
 #if false
             Abaqus.Model model = parser.parse_file("Simple.inp");

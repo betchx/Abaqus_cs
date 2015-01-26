@@ -204,7 +204,7 @@ namespace UnitTest.ParserTests
             return parser.model.nsets.First().Value.name;
         }
 
-        const string inp1 = @"*heading
+        public const string inp1 = @"*heading
 *part, name=BAZ
 *NODE, NSET=BAR
 1, 1.
