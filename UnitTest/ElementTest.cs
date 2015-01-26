@@ -52,6 +52,46 @@ namespace UnitTest
             return e.type;
         }
 
+        private const string alph = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private const string alnum = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+        public static IEnumerable<TestCaseData> SourceRondomTypeName
+        {
+            get {
+                var r = new Random();
+                for (int i = 0; i < 10; i++) {
+                    var len = r.Next(2, 7);
+                    var s = new StringBuilder(len);
+                    s.Append(alph[r.Next(alph.Length)]);
+                    for (int k = 1; k < len; k++) {
+                        s.Append(alnum[r.Next(alnum.Length)]);
+                    }
+                    var str = s.ToString();
+                    yield return new TestCaseData(str).Returns(str.ToUpper());
+                }
+			}
+        }
+
+        [TestCaseSource("SourceRondomTypeName")]
+        public string RondomTypeNameTest(string type)
+        {
+            var e = new Element(type,"1, 1, 2, 3, 4");
+            return e.type;
+        }
+
+
+        [Test]
+        public void ElementSizeTest(
+            [Random(1,20,4)] int num
+            )
+        {
+            var line = num.ToString()
+                + Enumerable.Range(1, num)
+                .Select(n => string.Format(", {0}", n))
+                .Aggregate((a, b) => a + b);
+            //Assert.Fail(line);
+            var el = new Element("DUMMY", line);
+            Assert.AreEqual(num, el.Count);
+        }
     }
 }
