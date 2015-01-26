@@ -38,5 +38,20 @@ namespace UnitTest
             }
 
         }
+
+        [TestCase("B31", Result="B31")]
+        [TestCase("S4R", Result="S4R")]
+        [TestCase("S4", Result="S4")]
+        [TestCase("s4", Result="S4")]
+        [TestCase("C3d8", Result="C3D8")]
+        [TestCase("c3D20", Result="C3D20")]
+        public string ElementTipeTest(string type)
+        {
+            //Assert.Fail();
+            var e = new Element(type, "1, 2, 3");
+            return e.type;
+        }
+
+
     }
 }
