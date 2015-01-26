@@ -278,17 +278,42 @@ namespace UnitTest.ParserTests
 *end instance
 *end assembly
 ");
+                yield return new Input(@"*heading
+*part, name=hoge
+*NODE, NSET=BAR
+1, 1.
+2, 2.
+3, 3.
+*ELEMENT, TYPE=B31
+1, 1, 2
+2, 2, 3
+*end part
+*assembly, name=Fuga
+*instance, name=HogeHoge, part=hoge
+*end instance
+*end assembly
+");
             }
         }
 
-        [Datapoint]
-        public static Name name = new Name("FOO.BAR");
+
+        public static IEnumerable<Name> nset_names
+        {
+            get
+            {
+                yield return new Name("FOO.BAR");
+                yield return new Name("HogeHoge.BAR");
+            }
+        }
 
         [Datapoints]
         public uint[] ids = new  uint[] {1u, 2u, 3u };
 
-        [Theory]
-        public void NameTest(Input data, Name set_name)
+
+        [Sequential]
+        public void AllNSetsNameTest(
+            [ValueSource("data")] Input data,
+            [ValueSource("nset_names")] Name set_name)
         {
             var model = parser.parse_string(data);
             var all = model.all_nsets;
@@ -305,12 +330,17 @@ namespace UnitTest.ParserTests
         }
 
         [Theory]
-        public void IDTest(Input data, Name name, uint id)
+        public void IDTest(Input data, uint id)
         {
             var model = parser.parse_string(data);
             var all = model.all_nsets;
 
-            var instance_name = name.Value.Split('.').First();
+            Assert.That(all, Is.Not.Empty);
+            var name = all.First().Key;
+            Assert.That(name, Is.Not.Empty);
+            Assert.That(name, Is.StringContaining("."));
+
+            var instance_name = name.Split('.').First();
 
             Assert.IsNotEmpty(instance_name);
 
