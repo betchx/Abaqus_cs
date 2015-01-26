@@ -14,7 +14,7 @@ namespace Abaqus
             set { node_ids[n] = value; }
         }
         public string type { get; private set; }
-        
+
         public Element(string type, string line)
         {
             this.type = type;

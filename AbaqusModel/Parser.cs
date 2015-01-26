@@ -189,9 +189,9 @@ namespace Abaqus
             string buf = "";
             foreach (var item in cmd)
             {
-                if (cont) 
+                if (cont)
                     buf += item.Trim();
-                else 
+                else
                     buf = item.Trim();
                 cont = buf.Last() == ',';
                 if (!cont) lines.Add(buf);

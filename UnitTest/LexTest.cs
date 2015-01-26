@@ -17,7 +17,7 @@ namespace UnitTest
         {
             lexer = new Lexer();
         }
-        
+
 
         public enum Target
         {
@@ -58,7 +58,7 @@ namespace UnitTest
 hogehoge
 ** COMMENT
 *NODE
-1, 1., 1, 
+1, 1., 1,
 2, 3., 2,
 3, 4.
 *ELEMENT, TYPE=B31, ELSET=bar

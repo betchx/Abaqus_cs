@@ -60,7 +60,7 @@ namespace UnitTest
             Assert.AreEqual(expected.Y, res.Y, delta, "Y");
             Assert.AreEqual(expected.Z, res.Z, delta, "Z");
         }
-        
+
         //原点で90°回転
         [TestCase(/*origin*/0, 0, 0, /*xaxis*/  0, 1, 0,  /*source*/ 2, 0, 0, /*expected*/ 0, 2, 0, /*delta*/ 0.001)]
         [TestCase(/*origin*/0, 0, 0, /*xaxis*/  0, 1, 0,  /*source*/ 2, 3, 0, /*expected*/ -3, 2, 0, /*delta*/ 0.001)]
@@ -318,11 +318,11 @@ namespace UnitTest
 
 
         [TestCase(
-            /*origin*/      0,     0,     0, 
-            /*X axis*/      1,     1,     1, 
-            /*Y axis*/     -1,     1,     1, 
+            /*origin*/      0,     0,     0,
+            /*X axis*/      1,     1,     1,
+            /*Y axis*/     -1,     1,     1,
             /*target*/      1,     0,     0,
-            /*expected*/0.577, 0.577, 0.577, 
+            /*expected*/0.577, 0.577, 0.577,
             /*delta*/ 0.001  )]
         public void ArbitrayRotate3Test(
             double a1, double a2, double a3,

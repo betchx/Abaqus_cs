@@ -28,7 +28,7 @@ STep desc
 *BOUNDARY, OP=MOD
 TOP, 1,, 0.1
 *CLOAD
-TOP, 0., 1., 0., 0.01 
+TOP, 0., 1., 0., 0.01
 *OUTPUT, FIELD
 *NODE OUTPUT
 U,RF
