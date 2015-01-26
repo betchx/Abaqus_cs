@@ -310,7 +310,7 @@ namespace Abaqus
             cmd.must_be(Keyword.PART);
 
             var name = cmd["NAME"].ToUpper();
-            current_part = new Part(name);
+            current_part = new Part(name, model);
             model.parts.Add(current_part);
         }
 
@@ -338,7 +338,7 @@ namespace Abaqus
             var part_name = cmd.parameters["PART"].ToUpper();
             var trans = ""; if (cmd.datablock.Count > 1) trans = cmd.datablock[0].Trim();
             var rot = ""; if (cmd.datablock.Count > 2) rot = cmd.datablock[1].Trim();
-            var ins = new Instance(name, part_name, trans, rot);
+            var ins = new Instance(name, part_name, model, trans, rot);
             model.instances.Add(ins);
 
             // パート

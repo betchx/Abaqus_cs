@@ -22,7 +22,7 @@ namespace Abaqus
         public NSets all_nsets { get; set; }
         public ELSets all_elsets { get; set; }
 
-        public Model():base("")
+        public Model():base("", null)
         {
             parts = new Parts();
             instances = new Instances();
@@ -31,6 +31,8 @@ namespace Abaqus
             all_elsets = new ELSets();
             all_nsets = new NSets();
 
+            // overwrite
+            this.model = this;
 
             nsets.model = this;
             elsets.model = this;
@@ -38,9 +40,9 @@ namespace Abaqus
             instances.model = this;
             nodes.model = this;
             elements.model = this;
-
             all_elsets.model = this;
             all_nsets.model = this;
+
             all_elsets.parent = this;
             all_nsets.parent = this;
         }

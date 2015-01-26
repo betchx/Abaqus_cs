@@ -7,9 +7,11 @@ namespace Abaqus
 {
     public class Part
     {
-        public Part(string name)
+        public Part(string name, Model model)
         {
             this.name= name;
+            this.model = model;
+
             nodes = new Nodes();
             elements = new Elements();
             nsets = new NSets();
@@ -19,6 +21,11 @@ namespace Abaqus
             elements.parent = this;
             nsets.parent = this;
             elsets.parent = this;
+
+            nodes.model = model;
+            elements.model = model;
+            nsets.model = model;
+            elsets.model = model;
         }
 
         public string name { get;  set; }

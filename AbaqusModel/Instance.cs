@@ -13,7 +13,7 @@ namespace Abaqus
 
         public new Instances parent { get; set; }
 
-        public Instance(string name, string part, string trans = "", string rot = ""):base(name)
+        public Instance(string name, string part, Model model, string trans = "", string rot = ""):base(name, model)
         {
             this.part = part;
             if( trans != ""){
