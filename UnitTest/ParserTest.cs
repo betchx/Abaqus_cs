@@ -224,6 +224,7 @@ namespace UnitTest.ParserTests
         public string InstanceNSetNameTest(string data)
         {
             var all = parser.parse_string(data).all_nsets;
+            CollectionAssert.IsNotEmpty(all);
             return all.Keys.FirstOrDefault();
         }
 
@@ -310,6 +311,8 @@ namespace UnitTest.ParserTests
             var all = model.all_nsets;
 
             var instance_name = name.Value.Split('.').First();
+
+            Assert.IsNotEmpty(instance_name);
 
             CollectionAssert.Contains(all.Values.First(), new Address(instance_name, id));
         }
