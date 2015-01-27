@@ -51,6 +51,10 @@
     </Compile>
     <Compile Include="ELSets.cs" />
     <Compile Include="GenerateEnumerator.cs" />
+    <Compile Include="GlobalElements.cs" />
+    <Compile Include="GlobalELSets.cs" />
+    <Compile Include="GlobalNodes.cs" />
+    <Compile Include="GlobalNSets.cs" />
     <Compile Include="IDGenerater.cs" />
     <Compile Include="Instance.cs" />
     <Compile Include="Instances.cs" />
