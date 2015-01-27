@@ -19,7 +19,7 @@ namespace Abaqus
             n.model = model;
             n.parent = this;
             base.Add(n.id, n);
-            model.all_nodes.Add(new Address(parent.name, n.id), n);
+            model.global_nodes.Add(new Address(parent.name, n.id), n);
         }
 
         public Part parent { get; set; }

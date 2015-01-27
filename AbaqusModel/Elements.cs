@@ -29,7 +29,7 @@ namespace Abaqus
             e.parent = this;
             e.model = model;
             base.Add(e.id, e);
-            model.all_elements.Add(new Address(parent.name, e.id), e);
+            model.global_elements.Add(new Address(parent.name, e.id), e);
         }
 
         public Part parent { get; set; }

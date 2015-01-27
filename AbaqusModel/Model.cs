@@ -20,20 +20,20 @@ namespace Abaqus
 
         // グローバルコレクション
         // 絶対名称で保存したもの
-        public GlobalNodes all_nodes { get; set; }
-        public GlobalElements all_elements { get; set; }
-        public GlobalNSets all_nsets { get; set; }
-        public GlobalELSets all_elsets { get; set; }
+        public GlobalNodes global_nodes { get; set; }
+        public GlobalElements global_elements { get; set; }
+        public GlobalNSets global_nsets { get; set; }
+        public GlobalELSets global_elsets { get; set; }
 
 
         public Model():base("", null)
         {
             parts = new Parts(this);
             instances = new Instances(this);
-            all_nodes = new GlobalNodes(this);
-            all_elements = new GlobalElements(this);
-            all_elsets = new GlobalELSets(this);
-            all_nsets = new GlobalNSets(this);
+            global_nodes = new GlobalNodes(this);
+            global_elements = new GlobalElements(this);
+            global_elsets = new GlobalELSets(this);
+            global_nsets = new GlobalNSets(this);
 
             // overwrite
             this.model = this;

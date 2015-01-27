@@ -352,17 +352,19 @@ namespace Abaqus
             part.elsets.ForEach(kv => ins.elsets.Add(kv.Value));
             part.nsets.ForEach(kv => ins.nsets.Add(kv.Value));
 
-            // Allシリーズへの追加
+            // グローバルコレクションへの追加
             // こちらはAddressへの変換があるのでひと手間かかる．
-            foreach (var val in part.nsets.Values) {
-                var nset = new NSet(dot_join(name, val.name));
-                val.ForEach(a => nset.Add(address(name, a.id)));
-                model.all_nsets.Add(nset.name, nset);
+            foreach (var nsets_of_part in part.nsets.Values) {
+                var absolute_name = dot_join(instance_name, nsets_of_part.name);
+                var global_nset = new NSet(absolute_name);
+                nsets_of_part.ForEach(nset_of_part => global_nset.Add(address(instance_name, nset_of_part.id)));
+                model.global_nsets.Add(global_nset);
             }
             foreach (var val in part.elsets.Values) {
-                var es = new ELSet(dot_join(name, val.name));
-                val.ForEach(a => es.Add(address(name, a.id)));
-                model.all_elsets.Add(es.name, es);
+                var absolute_naem = dot_join(instance_name, val.name);
+                var global_elset = new ELSet(absolute_naem);
+                val.ForEach(elset_in_part => global_elset.Add(address(instance_name, elset_in_part.id)));
+                model.global_elsets.Add(global_elset);
             }
 
         }
