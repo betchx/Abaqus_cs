@@ -62,8 +62,18 @@
     <Compile Include="GenerateEnumeratorTest.cs" />
     <Compile Include="IDGeneratorTest.cs" />
     <Compile Include="LexTest.cs" />
+    <Compile Include="ModelTheory.cs" />
     <Compile Include="NodeTest.cs" />
-    <Compile Include="ParserTest.cs" />
+    <Compile Include="ParserTests\AssemblyParseTest.cs" />
+    <Compile Include="ParserTests\Data.cs" />
+    <Compile Include="ParserTests\Input.cs" />
+    <Compile Include="ParserTests\InputSample.cs" />
+    <Compile Include="ParserTests\Name.cs" />
+    <Compile Include="ParserTests\InputParseTest.cs" />
+    <Compile Include="ParserTests\ParentTheory.cs" />
+    <Compile Include="ParserTests\ParserTest.cs" />
+    <Compile Include="ParserTests\ParserTestBase.cs" />
+    <Compile Include="ParserTests\PartTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemConverterTest.cs" />
   </ItemGroup>
