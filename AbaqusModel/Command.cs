@@ -78,5 +78,12 @@ namespace Abaqus
         {
             return  "*"+keyword+"(" + parameters.Count.ToString() + ")[" + datablock.Count.ToString() + "]" ;
         }
+
+        public  void must_have(string parameter)
+        {
+            if (Missing(parameter)) {
+                throw new InvalidFormatException(keyword + "に必須パラメータの" + parameter + "がありません");
+            }
+        }
     }
 }
