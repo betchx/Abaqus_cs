@@ -181,6 +181,9 @@ namespace Abaqus
         {
             cmd.must_be(Keyword.ELEMENT);
 
+            if (!cmd.Has("TYPE"))
+                throw new InvalidFormatException("Element");
+
             var type = cmd.parameters["TYPE"];
 
             // 継続行（最後がカンマ）をまとめる

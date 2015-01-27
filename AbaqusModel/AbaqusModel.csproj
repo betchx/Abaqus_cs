@@ -54,6 +54,7 @@
     <Compile Include="IDGenerater.cs" />
     <Compile Include="Instance.cs" />
     <Compile Include="Instances.cs" />
+    <Compile Include="InvalidFormatException.cs" />
     <Compile Include="Keyword.cs" />
     <Compile Include="Lexer.cs" />
     <Compile Include="Linq.cs" />
