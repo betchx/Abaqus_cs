@@ -7,6 +7,10 @@ namespace Abaqus
 {
     public class Instances : SortedDictionary<string, Instance>
     {
+        public Instances(Model model)
+        {
+            this.model = model;
+        }
         public Model model { get; set; }
 
         public new void Add(string s, Instance i)

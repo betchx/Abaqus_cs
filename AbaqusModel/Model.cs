@@ -25,10 +25,11 @@ namespace Abaqus
         public GlobalNSets all_nsets { get; set; }
         public GlobalELSets all_elsets { get; set; }
 
+
         public Model():base("", null)
         {
-            parts = new Parts();
-            instances = new Instances();
+            parts = new Parts(this);
+            instances = new Instances(this);
             all_nodes = new GlobalNodes(this);
             all_elements = new GlobalElements(this);
             all_elsets = new GlobalELSets(this);
@@ -39,8 +40,6 @@ namespace Abaqus
 
             nsets.model = this;
             elsets.model = this;
-            parts.model = this;
-            instances.model = this;
             nodes.model = this;
             elements.model = this;
         }

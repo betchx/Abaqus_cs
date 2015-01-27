@@ -9,6 +9,12 @@ namespace Abaqus
     {
         public Model model { get; set; }
 
+        public Parts(Model model)
+        {
+            this.model = model;
+        }
+
+
         public new void Add(string key, Part part)
         {
             // redirect
