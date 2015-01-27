@@ -16,7 +16,8 @@ namespace Abaqus
         }
         public void Add(NSet set)
         {
-            // 注意 setのparentやmodelは設定しない．
+            // 注意 setのparentは設定しない．
+            set.model = model;
             base.Add(set.name, set);
         }
     }
