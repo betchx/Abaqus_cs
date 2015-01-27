@@ -26,7 +26,7 @@ namespace Abaqus
             part.model = model;
             base.Add(part.name, part);
         }
-        public Model parent { get { return model; } }
+        public Part parent { get { return model; } }
 
         // Syntax suger
         public new Part this[string key] { get { Part part; return TryGetValue(key, out part) ? part : null; } }

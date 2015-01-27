@@ -27,7 +27,7 @@ namespace Abaqus
 
         }
 
-        public Model parent { get { return model; } }
+        public Part parent { get { return model; } }
 
         // Syntax suger
         public new Instance this[string key] { get { Instance ins; return base.TryGetValue(key, out ins) ? ins : null; } }
