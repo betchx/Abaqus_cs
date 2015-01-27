@@ -45,5 +45,8 @@ namespace Abaqus
         }
 
         public override bool isModel { get { return true; } }
+
+        // Assemblyを有するかどうかを返す
+        public bool isAssembly { get { return instances.Count > 0; } }
     }
 }
