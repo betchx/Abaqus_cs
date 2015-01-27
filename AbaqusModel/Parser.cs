@@ -328,13 +328,21 @@ namespace Abaqus
         /// <param name="cmd"></param>
         private void parse_instance(Command cmd)
         {
+            // check
             cmd.must_be(Keyword.INSTANCE);
+            cmd.must_have("NAME");
+            cmd.must_have("PART");
 
-            var name = cmd.parameters["NAME"].ToUpper();
-            var part_name = cmd.parameters["PART"].ToUpper();
+            // parameters
+            var instance_name = cmd["NAME"].ToUpper();
+            var part_name = cmd["PART"].ToUpper();
+
+            // 移動・回転の情報取得
             var trans = ""; if (cmd.datablock.Count > 1) trans = cmd.datablock[0].Trim();
             var rot = ""; if (cmd.datablock.Count > 2) rot = cmd.datablock[1].Trim();
-            var ins = new Instance(name, part_name, model, trans, rot);
+
+            // インスタンスの作成と登録
+            var ins = new Instance(instance_name, part_name, model, trans, rot);
             model.instances.Add(ins);
 
             // パート
@@ -345,10 +353,12 @@ namespace Abaqus
                 var pos = ins.system.Transform(n.pos);
                 ins.nodes.Add(new Node(n.id, pos.X, pos.Y, pos.Z));
             }
-            //ins.elements = part.elements;
+
+            // 要素
             foreach (var original in part.elements.Values) {
                 ins.elements.Add(new Element(original));
             }
+            // 集合
             part.elsets.ForEach(kv => ins.elsets.Add(kv.Value));
             part.nsets.ForEach(kv => ins.nsets.Add(kv.Value));
 
