@@ -45,6 +45,9 @@ namespace Abaqus
         /// <param name="key">オプションの名前</param>
         /// <returns>オプションが存在すればtrue.無ければfalse</returns>
         public bool Has(string key) { return parameters.ContainsKey(key.ToUpper()); }
+
+        public bool Missing(string key) { return !Has(key); }
+
         /// <summary>
         ///   キーワードがkeyであるかどうかを判定する．大文字小文字は無視される．
         /// </summary>
