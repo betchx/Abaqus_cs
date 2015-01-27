@@ -45,24 +45,85 @@ namespace UnitTest.ParserTests
         }
 
         [Test]
-        public void ModelTest([ValueSource(typeof(PartTestBase), "data")] Input data)
+        public void ModelTestOfParts([ValueSource(typeof(PartTestBase), "data")] Input data)
         {
             //Assert.Fail();
-            Assume.That(data.Value, Is.Not.Null.Or.Empty);
             var model = parser.parse_string(data);
-            Assert.IsNotNull(model);
-            Assert.AreSame(model, model.model);
-            model.all_elements.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
-            model.all_elsets.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
-            model.all_nodes.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
-            model.all_nsets.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
-            model.elements.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
-            model.elsets.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
-            model.instances.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
-            model.nodes.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
-            model.nsets.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
             model.parts.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
         }
+
+        [Test]
+        public void ModelTestOfNsets([ValueSource(typeof(PartTestBase), "data")] Input data)
+        {
+            //Assert.Fail();
+            var model = parser.parse_string(data);
+            model.nsets.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+        }
+
+        [Test]
+        public void ModelTestOfNodes([ValueSource(typeof(PartTestBase), "data")] Input data)
+        {
+            //Assert.Fail();
+            var model = parser.parse_string(data);
+            model.nodes.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+        }
+
+        [Test]
+        public void ModelTestOfInstances([ValueSource(typeof(PartTestBase), "data")] Input data)
+        {
+            //Assert.Fail();
+            var model = parser.parse_string(data);
+            model.instances.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+        }
+
+        [Test]
+        public void ModelTestOfElsets([ValueSource(typeof(PartTestBase), "data")] Input data)
+        {
+            //Assert.Fail();
+            var model = parser.parse_string(data);
+            model.elsets.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+        }
+
+        [Test]
+        public void ModelTestOfElements([ValueSource(typeof(PartTestBase), "data")] Input data)
+        {
+            //Assert.Fail();
+            var model = parser.parse_string(data);
+            model.elements.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+        }
+
+        [Test]
+        public void ModelTestOfGlobalNodes([ValueSource(typeof(PartTestBase), "data")] Input data)
+        {
+            //Assert.Fail();
+            var model = parser.parse_string(data);
+            model.global_nodes.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+        }
+
+        [Test]
+        public void ModelTestOfGlobalElsets([ValueSource(typeof(PartTestBase), "data")] Input data)
+        {
+            //Assert.Fail();
+            var model = parser.parse_string(data);
+            model.global_elsets.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+        }
+
+        [Test]
+        public void ModelTestOfGlobalNsets([ValueSource(typeof(PartTestBase), "data")] Input data)
+        {
+            //Assert.Fail();
+            var model = parser.parse_string(data);
+            model.global_nsets.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+        }
+
+        [Test]
+        public void ModelTestOfGlobalElements([ValueSource(typeof(PartTestBase), "data")] Input data)
+        {
+            //Assert.Fail();
+            var model = parser.parse_string(data);
+            model.global_elements.ForEach(kv => Assert.AreEqual(model, kv.Value.model));
+        }
+
 
         [Test]
         public void ParentTest([ValueSource(typeof(PartTestBase), "data")] Input data)
