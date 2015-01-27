@@ -15,42 +15,44 @@ namespace UnitTest.ParserTests
 
 
         [Theory]
-        public void AllElSetParentTest(Input data)
+        public void ParentOfGlobalElSetItemsShouldBeNull(Input data)
         {
             //Assert.Fail();
             Assume.That(data.Value, Is.Not.Null.Or.Empty);
             var model = parser.parse_string(data);
-            model.all_elsets.ForEach(kv => Assert.AreSame(model.all_elsets, kv.Value.parent));
+            model.global_elsets.ForEach(kv => Assert.That(kv.Value.parent, Is.Null));
         }
 
         [Theory]
-        public void AllNSetsParentTest(Input data)
+        public void ParentOfGlobalNSetsItemsShouldBeNull(Input data)
         {
             //Assert.Fail();
             Assume.That(data.Value, Is.Not.Null.Or.Empty);
             var model = parser.parse_string(data);
-            model.all_nsets.ForEach(kv => Assert.AreSame(model.all_nsets, kv.Value.parent));
+            model.global_nsets.ForEach(kv => Assert.That(kv.Value.parent, Is.Null));
         }
 
         [Theory]
-        public void AllElementParentTest(Input data)
+        public void ParentOfGlobalElementItemShouldNotBeNullAndSelf(Input data)
         {
             //Assert.Fail();
             Assume.That(data.Value, Is.Not.Null.Or.Empty);
             var model = parser.parse_string(data);
 
             // 要素は共通の為親は一致しない．
-            model.all_elements.ForEach(kv => Assert.That(kv.Value.parent, Is.Not.SameAs(model.all_elements)));
+            model.global_elements.ForEach(kv => Assert.That(kv.Value.parent, Is.Not.Null));
+            model.global_elements.ForEach(kv => Assert.That(kv.Value.parent, Is.Not.SameAs(model.global_elements)));
         }
 
         [Theory]
-        public void AllNodeParentTest(Input data)
+        public void ParentOfAllNodesItemsShouldNotBeNullAndSelf(Input data)
         {
             //Assert.Fail();
             Assume.That(data.Value, Is.Not.Null.Or.Empty);
             var model = parser.parse_string(data);
             // 節点は共通の為親は一致しない．
-            model.all_nodes.ForEach(kv => Assert.That(kv.Value.parent, Is.Not.SameAs(model.all_nodes)));
+            model.global_nodes.ForEach(kv => Assert.That(kv.Value.parent, Is.Not.Null));
+            model.global_nodes.ForEach(kv => Assert.That(kv.Value.parent, Is.Not.SameAs(model.global_nodes)));
         }
 
     }
