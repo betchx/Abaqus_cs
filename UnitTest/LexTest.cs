@@ -8,7 +8,7 @@ using Abaqus;
 namespace UnitTest
 {
     [TestFixture]
-    class LexTest
+    public class LexTest
     {
         Lexer lexer;
 

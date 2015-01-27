@@ -32,7 +32,8 @@ namespace ModelTest
             //test.teardown();
 
             var parser = new Abaqus.Parser();
-            var model = parser.parse_string(UnitTest.ParserTests.ParserTest.inp1);
+            //var model = parser.parse_string(UnitTest.ParserTests.ParserTest.inp1);
+            var model = parser.parse_string(UnitTest.LexTest.input);
 
 #if false
             Abaqus.Model model = parser.parse_file("Simple.inp");
