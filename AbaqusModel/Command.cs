@@ -10,8 +10,10 @@ namespace Abaqus
         public string keyword { get; set; }
         public Dictionary<string, string> parameters { get; set; }
         public List<string> datablock { get; set; }
-        public Command()
+
+        public Command(string keyword)
         {
+            this.keyword = keyword.ToUpper();
             parameters = new Dictionary<string, string>();
             datablock = new List<string>();
         }
@@ -70,7 +72,7 @@ namespace Abaqus
         // Check method
         public void must_be(string expected)
         {
-            if (keyword != expected) throw new ArgumentException(keyword + " is not " + expected);
+            if (keyword != expected.ToUpper()) throw new ArgumentException(keyword + " is not " + expected);
         }
 
 

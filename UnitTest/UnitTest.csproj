@@ -58,6 +58,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandTest.cs" />
     <Compile Include="ElementTest.cs" />
     <Compile Include="GenerateEnumeratorTest.cs" />
     <Compile Include="IDGeneratorTest.cs" />

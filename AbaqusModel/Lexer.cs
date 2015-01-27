@@ -77,7 +77,7 @@ namespace Abaqus
         private Queue<Command> lex_stream(System.IO.TextReader sr)
         {
             var res = new Queue<Command>();
-            Command c = new Command(); // Dummy
+            Command c = null; //new Command(); // Dummy
             var line = sr.ReadLine();
             while (line != null)
             {
@@ -89,9 +89,8 @@ namespace Abaqus
                 {
                     if (line.StartsWith("*"))
                     {
-                        c = new Command();
                         var kv = parse_keyword(line);
-                        c.keyword = kv.Key;
+                        c = new Command(kv.Key);
                         c.parameters = kv.Value;
                         res.Enqueue(c);
                     }
