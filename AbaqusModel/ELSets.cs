@@ -23,7 +23,7 @@ namespace Abaqus
             base.Add(set.name, set);
 
             // 親がモデルのときはallに登録
-            if (parent.isMmodel) { model.all_elsets.Add(set.name, set); }
+            if (parent.isModel) { model.all_elsets.Add(set.name, set); }
         }
 
         // Syntax suger

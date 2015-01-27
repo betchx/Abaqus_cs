@@ -19,8 +19,8 @@ namespace Abaqus
         // 絶対名称で保存したもの
         public SortedDictionary<Address, Node> all_nodes { get; set; }
         public SortedDictionary<Address, Element> all_elements { get; set; }
-        public NSets all_nsets { get; set; }
-        public ELSets all_elsets { get; set; }
+        public SortedDictionary<string, NSet> all_nsets { get; set; }
+        public SortedDictionary<string, ELSet> all_elsets { get; set; }
 
         public Model():base("", null)
         {
@@ -40,13 +40,8 @@ namespace Abaqus
             instances.model = this;
             nodes.model = this;
             elements.model = this;
-            all_elsets.model = this;
-            all_nsets.model = this;
-
-            all_elsets.parent = this;
-            all_nsets.parent = this;
         }
 
-        public virtual bool isModel { get { return true; } }
+        public override bool isModel { get { return true; } }
     }
 }

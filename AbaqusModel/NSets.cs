@@ -21,7 +21,7 @@ namespace Abaqus
             nset.model = model;
             base.Add(nset.name, nset);
             // 親がモデルのときはallに登録
-            if (parent.isMmodel) { model.all_nsets.Add(nset.name, nset); }
+            if (parent.isModel) { model.all_nsets.Add(nset.name, nset); }
         }
 
 

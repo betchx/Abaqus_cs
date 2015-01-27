@@ -36,6 +36,6 @@ namespace Abaqus
 
         public Parts parent { get; set; }
         public Model model { get; set; }
-        public virtual bool isMmodel{ get { return false; }}
+        public virtual bool isModel{ get { return false; }}
     }
 }

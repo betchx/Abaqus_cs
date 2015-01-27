@@ -212,7 +212,12 @@ namespace Abaqus
                 var name = cmd["ELSET"].ToUpper();
                 var elset = new ELSet(name);
                 elset.UnionWith(eids.Select(i => new Address(i)));
-                current_part.elsets.Add(name, elset);
+                try {
+                    current_part.elsets.Add(name, elset);
+                }
+                catch (ArgumentException e) {
+                    throw new ArgumentException("elsetsのキーに'" + name + "'が既に存在", e);
+                }
             }
         }
 
@@ -348,13 +353,13 @@ namespace Abaqus
             // こちらはAddressへの変換があるのでひと手間かかる．
             foreach (var val in part.nsets.Values) {
                 var nset = new NSet(dot_join(name, val.name));
-                val.ForEach( a => nset.Add(address(name, a.id)));
-                model.all_nsets.Add(nset);
+                val.ForEach(a => nset.Add(address(name, a.id)));
+                model.all_nsets.Add(nset.name, nset);
             }
             foreach (var val in part.elsets.Values) {
                 var es = new ELSet(dot_join(name, val.name));
                 val.ForEach(a => es.Add(address(name, a.id)));
-                model.all_elsets.Add(es);
+                model.all_elsets.Add(es.name, es);
             }
 
         }
