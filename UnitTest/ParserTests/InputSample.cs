@@ -42,7 +42,7 @@ namespace UnitTest.ParserTests
 *node, nset=all_nodes
 1, 1
 2, 2.1, 3.4
-*element, elset=all_elements
+*element, elset=global_elements
 1, 1, 2
 ");
             }

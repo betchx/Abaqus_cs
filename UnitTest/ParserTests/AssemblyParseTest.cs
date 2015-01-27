@@ -18,7 +18,7 @@ namespace UnitTest.ParserTests
             [ValueSource(typeof(PartTestBase), "nset_names")] Name set_name)
         {
             var model = parser.parse_string(data);
-            var all = model.all_nsets;
+            var all = model.global_nsets;
 
             CollectionAssert.Contains(all.Keys, set_name.Value);
         }
@@ -30,7 +30,7 @@ namespace UnitTest.ParserTests
             [ValueSource(typeof(PartTestBase), "ids")] uint id)
         {
             var model = parser.parse_string(data);
-            var all = model.all_nsets;
+            var all = model.global_nsets;
 
             Assert.That(all, Is.Not.Empty);
             var name = all.First().Key;

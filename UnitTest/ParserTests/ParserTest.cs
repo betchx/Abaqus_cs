@@ -92,7 +92,7 @@ namespace UnitTest.ParserTests
             }
             var model = parser.parse_file(file);
             var elements = model.elements;
-            var all = model.all_elements;
+            var all = model.global_elements;
 
             Assert.AreEqual(2, elements.Count, "Number of elements");
 
@@ -130,7 +130,7 @@ namespace UnitTest.ParserTests
             parser.parse_file(file);
             var model = parser.model;
             var nodes = model.nodes;
-            var all = model.all_nodes;
+            var all = model.global_nodes;
 
 
             for (uint i = 1u; i < 5u; i++)
@@ -229,7 +229,7 @@ namespace UnitTest.ParserTests
         [TestCase(inp1, Result="FOO.BAR")]
         public string InstanceNSetNameTest(string data)
         {
-            var all = parser.parse_string(data).all_nsets;
+            var all = parser.parse_string(data).global_nsets;
             CollectionAssert.IsNotEmpty(all);
             return all.Keys.FirstOrDefault();
         }
@@ -237,7 +237,7 @@ namespace UnitTest.ParserTests
         [TestCase(inp1, Result=1)]
         public int InstanceNSetCountTest(string data)
         {
-            return parser.parse_string(data).all_nsets.Count;
+            return parser.parse_string(data).global_nsets.Count;
         }
     }
 

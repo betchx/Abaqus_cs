@@ -43,10 +43,10 @@ namespace UnitTest.ParserTests
             Assume.That(() => { parser.parse_string(data.Value); }, Throws.Nothing);
             var model = parser.model;
             Assume.That(model, Is.Not.Null);
-            Assert.That(model.all_elements, Is.Not.Null);
-            Assert.That(model.all_elsets, Is.Not.Null);
-            Assert.That(model.all_nodes, Is.Not.Null);
-            Assert.That(model.all_nsets, Is.Not.Null);
+            Assert.That(model.global_elements, Is.Not.Null);
+            Assert.That(model.global_elsets, Is.Not.Null);
+            Assert.That(model.global_nodes, Is.Not.Null);
+            Assert.That(model.global_nsets, Is.Not.Null);
             Assert.That(model.elements, Is.Not.Null);
             Assert.That(model.elsets, Is.Not.Null);
             Assert.That(model.instances, Is.Not.Null);
@@ -117,7 +117,7 @@ namespace UnitTest.ParserTests
 
             var model = parser.parse_string(data.Value);
 
-            Assert.That(model.all_nsets, Is.Not.Empty);
+            Assert.That(model.global_nsets, Is.Not.Empty);
         }
 
         [Explicit]
@@ -131,7 +131,7 @@ namespace UnitTest.ParserTests
             var model = parser.parse_string(data.Value);
 
             Assert.That(model.elsets, Is.Not.Empty);
-            Assert.That(model.all_elsets, Is.Not.Empty);
+            Assert.That(model.global_elsets, Is.Not.Empty);
         }
 
         [Explicit]
