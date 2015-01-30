@@ -67,10 +67,12 @@
     <Compile Include="NodeTest.cs" />
     <Compile Include="ParserTests\AssemblyParseTest.cs" />
     <Compile Include="ParserTests\Data.cs" />
+    <Compile Include="ParserTests\ElementTheory.cs" />
     <Compile Include="ParserTests\Input.cs" />
     <Compile Include="ParserTests\InputSample.cs" />
     <Compile Include="ParserTests\Name.cs" />
     <Compile Include="ParserTests\InputParseTest.cs" />
+    <Compile Include="ParserTests\NodeTheory.cs" />
     <Compile Include="ParserTests\ParentTheory.cs" />
     <Compile Include="ParserTests\ParserTest.cs" />
     <Compile Include="ParserTests\ParserTestBase.cs" />
