@@ -11,11 +11,13 @@ namespace UnitTest.ParserTests
     public class ParserTestBase
     {
         internal Parser parser;
+        internal Lexer lexer;
 
         [SetUp]
         public void Setup()
         {
             parser = new Parser();
+            lexer = new Lexer();
         }
 
     }
