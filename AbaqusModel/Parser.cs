@@ -180,11 +180,9 @@ namespace Abaqus
         private void parse_element(Command cmd)
         {
             cmd.must_be(Keyword.ELEMENT);
+            cmd.must_have("TYPE");
 
-            if (!cmd.Has("TYPE"))
-                throw new InvalidFormatException("Element");
-
-            var type = cmd.parameters["TYPE"];
+            var type = cmd["TYPE"];
 
             // 継続行（最後がカンマ）をまとめる
             bool cont = false;
