@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Abaqus;
+using System.Text.RegularExpressions;
 
 namespace UnitTest
 {
@@ -130,5 +131,58 @@ SF
             Assert.AreEqual(0, lexer.commands.Where(c => c.keyword == "ELSET").Count());
         }
 
+
+        public class LexTheroy
+        {
+            [SetUp]
+            public void Setup()
+            {
+                lex = new Lexer();
+            }
+
+            private Lexer lex;
+
+            [Datapoints]
+            static IEnumerable<string> inputs()
+            {
+                yield return "*NODE\n1\n";
+                yield return "*NODE\n1, 1.0\n";
+                yield return "*NODE\n1, 1.0, 1.0\n";
+                yield return "*NODE\n1, 1.0, 1.0, 1.0\n";
+                yield return "*NODE\n1, 1,1,1\n2,2,2,2\n";
+                yield return "*NODE\n1\n2\r\n*ELEMENT,TYPE=B31\n1, 1,2\n";
+
+                // 存在しないキーワード
+                yield return "*WRONG KEYWORD, ANYPARAM=VALUE\nTrailing data line\n";
+
+                // フルセット
+                yield return LexTest.input;
+            }
+
+
+            [Theory]
+            public void LexParserShouldAddCommand(string line)
+            {
+                Assume.That(line, Is.StringMatching(@"^\*[^* ][a-zA-Z]"));
+                lex.read_string(line);
+                Assert.That(lex.commands, Is.Not.Empty);
+            }
+
+            [Theory]
+            public void NumberOfCommandsMustBeEqualToNumberOfKeywords(string line)
+            {
+                //Assert.Fail();
+                var matches = Regex.Matches(line, @"^\*[A-Za-z]", RegexOptions.Multiline);
+                string msg = "";
+                foreach (var item in matches)
+                {
+                    msg += item.ToString();
+                }
+                //Assert.Fail(msg);
+                var number_of_keywords = matches.Count;
+                lex.read_string(line);
+                Assert.AreEqual(number_of_keywords, lex.commands.Count);
+            }
+        }
     }
 }
