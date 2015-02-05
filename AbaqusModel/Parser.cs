@@ -11,7 +11,7 @@ namespace Abaqus
 {
     public class Parser
     {
-        Transform3DGroup system;
+        public Transform3DGroup system;
         public Model model { get; set; }
         public Lexer lexer { get; set; }
 
@@ -92,6 +92,8 @@ namespace Abaqus
 
         #endregion
 
+
+        #region コンストラクタ
         public Parser()
         {
             model = new Model();
@@ -109,6 +111,7 @@ namespace Abaqus
             dict.Add(Keyword.INSTANCE, parse_instance);
             dict.Add(Keyword.ASSEMBLY, parse_assembly);
         }
+        #endregion
 
         #region パースメソッド
         public Model parse_file(string filename)
@@ -393,24 +396,28 @@ namespace Abaqus
             cmd.must_be(Keyword.SYSTEM);
 
             system.Children.Clear();
+
+            // lineに指定のデータがCSVで格納される
             var line = cmd.datablock[0].Trim();
             if (cmd.datablock.Count > 1)
             {
                 if (line.Last() != ',') line += ",";
                 line += cmd.datablock[1].Trim();
             }
+            // 分割してパース
             var arr = line.Split(',').Select(s => double.Parse(s)).ToList();
+            // 数が3の倍数でない場合は0を追加
             while (arr.Count % 3 != 0) { arr.Add(0.0); }
+            // 原点こいつは必ず存在する
             var a = new Point3D(arr[0], arr[1], arr[2]);
-            var b = a; b.X += 1;
-            var c = a; c.Y += 1;
+            Point3D? b = null;
+            Point3D? c = null;
+            // 指定があれば更新
             if (arr.Count > 3) { b = new Point3D(arr[3], arr[4], arr[5]); }
             if (arr.Count > 6) { c = new Point3D(arr[6], arr[7], arr[8]); }
-            var origin = new Point3D(0.0, 0.0, 0.0);
-            var e1 = b - a;
-            var e2 = c - a;
-            var e3 = Vector3D.CrossProduct(e1, e2);
 
+            // 作成して登録
+            system = SystemConverter.New(a, b, c);
         }
 
         #endregion

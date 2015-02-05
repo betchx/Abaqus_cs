@@ -30,8 +30,8 @@ namespace UnitTest
             Point3D source = new Point3D(b1, b2, b3);
             Point3D expected = new Point3D(c1, c2, c3);
 
-            var conv = new SystemConverter(origin);
-            var res = conv.transform.Transform(source);
+            var conv = SystemConverter.New(origin);
+            var res = conv.Transform(source);
 
             Assert.AreEqual(expected.X, res.X, delta, "X");
             Assert.AreEqual(expected.Y, res.Y, delta, "Y");
@@ -53,8 +53,8 @@ namespace UnitTest
             Point3D source = new Point3D(c1, c2, c3);
             Point3D expected = new Point3D(d1, d2, d3);
 
-            var conv = new SystemConverter(origin, xaxis);
-            var res = conv.transform.Transform(source);
+            var conv = SystemConverter.New(origin, xaxis);
+            var res = conv.Transform(source);
 
             Assert.AreEqual(expected.X, res.X, delta, "X");
             Assert.AreEqual(expected.Y, res.Y, delta, "Y");
@@ -97,8 +97,8 @@ namespace UnitTest
             Point3D source = new Point3D(c1, c2, c3);
             Point3D expected = new Point3D(d1, d2, d3);
 
-            var conv = new SystemConverter(origin, xaxis);
-            var res = conv.transform.Transform(source);
+            var conv = SystemConverter.New(origin, xaxis);
+            var res = conv.Transform(source);
 
             Assert.AreEqual(expected.X, res.X, delta, "X");
             Assert.AreEqual(expected.Y, res.Y, delta, "Y");
@@ -121,8 +121,8 @@ namespace UnitTest
             Point3D source = new Point3D(c1, c2, c3);
             Point3D expected = new Point3D(d1, d2, d3);
 
-            var conv = new SystemConverter(origin, xaxis);
-            var res = conv.transform.Transform(source);
+            var conv = SystemConverter.New(origin, xaxis);
+            var res = conv.Transform(source);
 
             Assert.AreEqual(expected.X, res.X, delta, "X");
             Assert.AreEqual(expected.Y, res.Y, delta, "Y");
@@ -147,8 +147,8 @@ namespace UnitTest
             Point3D source = new Point3D(c1, c2, c3);
             Point3D expected = new Point3D(d1, d2, d3);
 
-            var conv = new SystemConverter(origin, xaxis, plane);
-            var res = conv.transform.Transform(source);
+            var conv = SystemConverter.New(origin, xaxis, plane);
+            var res = conv.Transform(source);
 
             Assert.AreEqual(expected.X, res.X, delta, "X");
             Assert.AreEqual(expected.Y, res.Y, delta, "Y");
@@ -198,8 +198,8 @@ namespace UnitTest
             Point3D source = new Point3D(c1, c2, c3);
             Point3D expected = new Point3D(d1, d2, d3);
 
-            var conv = new SystemConverter(origin, xaxis, plane);
-            var res = conv.transform.Transform(source);
+            var conv = SystemConverter.New(origin, xaxis, plane);
+            var res = conv.Transform(source);
 
             Assert.AreEqual(expected.X, res.X, delta, "X");
             Assert.AreEqual(expected.Y, res.Y, delta, "Y");
@@ -254,8 +254,8 @@ namespace UnitTest
             Point3D source = new Point3D(c1, c2, c3);
             Point3D expected = new Point3D(d1, d2, d3);
 
-            var conv = new SystemConverter(origin, xaxis, plane);
-            var res = conv.transform.Transform(source);
+            var conv = SystemConverter.New(origin, xaxis, plane);
+            var res = conv.Transform(source);
 
             Assert.AreEqual(expected.X, res.X, delta, "X");
             Assert.AreEqual(expected.Y, res.Y, delta, "Y");
@@ -308,8 +308,8 @@ namespace UnitTest
             Point3D source = new Point3D(c1, c2, c3);
             Point3D expected = new Point3D(d1, d2, d3);
 
-            var conv = new SystemConverter(origin, xaxis, plane);
-            var res = conv.transform.Transform(source);
+            var conv = SystemConverter.New(origin, xaxis, plane);
+            var res = conv.Transform(source);
 
             Assert.AreEqual(expected.X, res.X, delta, "X");
             Assert.AreEqual(expected.Y, res.Y, delta, "Y");
@@ -338,8 +338,8 @@ namespace UnitTest
             Point3D source = new Point3D(c1, c2, c3);
             Point3D expected = new Point3D(d1, d2, d3);
 
-            var conv = new SystemConverter(origin, xaxis, plane);
-            var res = conv.transform.Transform(source);
+            var conv = SystemConverter.New(origin, xaxis, plane);
+            var res = conv.Transform(source);
 
             Assert.AreEqual(expected.X, res.X, delta, "X");
             Assert.AreEqual(expected.Y, res.Y, delta, "Y");
@@ -376,8 +376,5 @@ namespace UnitTest
             Assert.AreEqual(1.0, res.Y, 0.01, "y");
             Assert.AreEqual(1.0, res.Z, 0.01, "z");
         }
-
-
-
     }
 }

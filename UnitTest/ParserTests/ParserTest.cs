@@ -213,9 +213,9 @@ namespace UnitTest.ParserTests
         public const string inp1 = @"*heading
 *part, name=BAZ
 *NODE, NSET=BAR
-1, 1.
-2, 2.
-3, 3.
+1, 1., -3
+2, 2., -2
+3, 3., -1
 *ELEMENT, TYPE=B31
 1, 1, 2
 2, 2, 3
@@ -225,6 +225,35 @@ namespace UnitTest.ParserTests
 *end instance
 *end assembly
 ";
+        public enum Coodinate { X, Y, Z }
+
+        [TestCase(inp1, "FOO.BAR", Coodinate.X, " 1.0, 2.0, 3.0")]
+        [TestCase(inp1, "FOO.BAR", Coodinate.Y, "-3.0,-2.0,-1.0")]
+        [TestCase(inp1, "FOO.BAR", Coodinate.Z, " 0.0, 0.0, 0.0")]
+        public void NsetNodesCoordinateTest(string inp, string nset_name, Coodinate comp, string results)
+        {
+            //Assert.Fail(inp);
+            var m = parser.parse_string(inp);
+            var nset = m.global_nsets[nset_name];
+            double[] ans = null;
+            switch (comp)
+            {
+                case Coodinate.X:
+                    ans = nset.Select(nid => m.global_nodes[nid].X).ToArray();
+                    break;
+                case Coodinate.Y:
+                    ans = nset.Select(nid => m.global_nodes[nid].Y).ToArray();
+                    break;
+                case Coodinate.Z:
+                    ans = nset.Select(nid => m.global_nodes[nid].Z).ToArray();
+                    break;
+            }
+            foreach (var res in results.Split(',').Select(s => double.Parse(s)).ToArray())
+            {
+                CollectionAssert.Contains(ans, res);
+            }
+        }
+
 
         [TestCase(inp1, Result="FOO.BAR")]
         public string InstanceNSetNameTest(string data)

@@ -73,6 +73,7 @@
     <Compile Include="ParserTests\Name.cs" />
     <Compile Include="ParserTests\InputParseTest.cs" />
     <Compile Include="ParserTests\NodeTheory.cs" />
+    <Compile Include="ParserTests\NodeWithSystemTest.cs" />
     <Compile Include="ParserTests\ParentTheory.cs" />
     <Compile Include="ParserTests\ParserTest.cs" />
     <Compile Include="ParserTests\ParserTestBase.cs" />
