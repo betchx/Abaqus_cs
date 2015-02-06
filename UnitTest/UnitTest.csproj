@@ -79,12 +79,17 @@
     <Compile Include="ParserTests\ParserTestBase.cs" />
     <Compile Include="ParserTests\PartTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RailLoad\SpeedTest.cs" />
     <Compile Include="SystemConverterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AbaqusModel\AbaqusModel.csproj">
       <Project>{947FE0E6-82F4-4E8B-A1C9-9379FB5AE8A2}</Project>
       <Name>AbaqusModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RailLoad\RailLoad.csproj">
+      <Project>{B6958FF5-F238-4BD1-8551-8654D180CAF6}</Project>
+      <Name>RailLoad</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
