@@ -64,7 +64,7 @@ namespace AbaqusConvergenceMonitor
 
             foreach (var t in arr)
             {
-                if (info.Add(t))
+                if (info.ParseLine(t))
                 {
                     sb.AppendLine(info.ToString());
                 }
